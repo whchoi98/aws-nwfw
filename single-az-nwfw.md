@@ -287,6 +287,8 @@ http://ec2-102-public-ip/ec2meta-webpage/index.php
 **방화벽을 통과하는 트래픽 흐름이지만 , 별도의 정책없이도 정상적으로 웹브라우저가 출력이 됩니다. 이 구성을 통해 알 수 있는 것은, 기본 방화벽 정은 묵시적 허용이라는 것을 알 수 있습니다.**
 {% endhint %}
 
+\*\*\*\*
+
 ## Network Firewall 상세 구성
 
 이제 생성된 Firewall과 Firewall Policy에 Rule\(보안 규칙\)을 설정하여, 상세한 보안 규칙들을 설정해 봅니다.
