@@ -5,5 +5,3 @@
 * [Network Firewall - 멀티VPC](multi-vpc-nwfw.md)
 * [Network Firewall - 멀티 AZ](multi-az-nwfw.md)
 
-## Network Firewall 소개
-
