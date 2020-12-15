@@ -32,15 +32,21 @@
 
 ## Network Firewall 기본 구성. 
 
-### 1.Network Firewall 생성. 
+### 1.Network Firewall 및 Policy 생성.
 
-
-
-Service - VPC - AWS Network Firewall - Firewall - Create
+**`Service - VPC - AWS Network Firewall - Firewall - Create`**
 
 ![](../.gitbook/assets/image%20%285%29.png)
 
 먼저 Firewall을 생성하고, Firewall Policy 생성하여 연결합니다. 기존에 Firewall Policy가 있다면 생성한 Firewall에 연결할 수 있습니다.
+
+1. **Name** : 방화벽 이름을 정의합니다. 
+2. **Description\(Optional\)** : 방화벽에 대한 설명을 정의합니다.
+3. **VPC** : 생성한 VPC를 선택합니다. \(eg. VPC1\)
+4. **Firewall subnets - Availability Zone** : AZ Zone을 선택합니다. \(eg. us-west-2a\) **Firewall subnets - Subnet** : 생성한 방화벽용 Subnet을 선택합니다. \(eg. VPC1-FWSubnet1\)
+5. **New Firewall policy name :** 신규 생성한 NWFW의 방화벽 정책이름을 정의합니다.
+6. **Description\(Optional\)** : 방화벽 정에 대한 설명을 정의합니다.   
+7. **Firewall Tag :** Firewall 자원에 대한 Tag를 정의합니다.
 
 ![](../.gitbook/assets/image%20%284%29.png)
 
