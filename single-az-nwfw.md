@@ -111,7 +111,7 @@ Cloudformation이 IAM에 접근하여 사용할 수 있도록 체크합니다.
 
 이제 라우팅 테이블을 정의하고, 인터넷과 EC2간의 통신을 확인해 봅니다.
 
-![](.gitbook/assets/image%20%2822%29.png)
+![](.gitbook/assets/image%20%2824%29.png)
 
 ### 1. VPC Ingress 라우팅 테이블 구성. 
 
@@ -121,11 +121,11 @@ Cloudformation이 IAM에 접근하여 사용할 수 있도록 체크합니다.
 
 **`Service - VPC - Virtual Private Cloud - Route Table - Create route table`**
 
-![](.gitbook/assets/image%20%2835%29.png)
+![](.gitbook/assets/image%20%2837%29.png)
 
 신규 생성한 InternetGateway용 라우팅 테이블을 선택하고, **`Edge Associations`** 를 선택합니다.
 
-![](.gitbook/assets/image%20%2827%29.png)
+![](.gitbook/assets/image%20%2829%29.png)
 
 InternetGateway용 라우팅 테이블을 InternetGateway\(이하 IGW\)에 연결합니다.
 
@@ -133,13 +133,13 @@ InternetGateway용 라우팅 테이블을 InternetGateway\(이하 IGW\)에 연�
 
 연결하면 아래와 같이 정상적으로 IGW에 라우팅 테이블\(Ingress Routing\)이 생성됩니다.
 
-![](.gitbook/assets/image%20%2829%29.png)
+![](.gitbook/assets/image%20%2831%29.png)
 
 이제 인터넷에서 유입되는 트래픽이 Firewall Endpoint를 향하도록 Ingress Routing을 설정합니다.
 
 **`Route - Edit Routes`** 를 선택하고 수정합니다.
 
-![](.gitbook/assets/image%20%2816%29.png)
+![](.gitbook/assets/image%20%2818%29.png)
 
 목적지는 **`0.0.0.0/0`**을 설정하고, Target은 **`Gateway Load Balancer Endpoint`**를 선택합니다.​
 
@@ -147,43 +147,105 @@ InternetGateway용 라우팅 테이블을 InternetGateway\(이하 IGW\)에 연�
 **Target이 Gateway Load Balancer Endpoint가 되어야 하는 이유는 앞서 설명하였습니다.**
 {% endhint %}
 
-![](.gitbook/assets/image%20%2834%29.png)
+![](.gitbook/assets/image%20%2836%29.png)
 
 Gateway Load Balancer Endpoint를 선택하게 되면, Network Firewall을 생성한 이후에 자동 생성된 VPC Endpoint를 확인할 수 있습니다. 해당 Endpoint를 선택하고 라우팅 테이블을 완료합니다.
 
-![](.gitbook/assets/image%20%2824%29.png)
+![](.gitbook/assets/image%20%2826%29.png)
 
 이제 10.1.1.0/24 로 외부에서 인입되는 트래픽은 모두 Firewall을 경유하게 됩니다.
 
-![](.gitbook/assets/image%20%2819%29.png)
+![](.gitbook/assets/image%20%2821%29.png)
 
 ### 2. FW Subnet 라우팅 테이블 구성. 
 
 FW Subnet은 인터넷으로 향하는 트래픽에 대한 라우팅 생성을 합니다.
 
-![](.gitbook/assets/image%20%2823%29.png)
-
 ![](.gitbook/assets/image%20%2825%29.png)
 
-![](.gitbook/assets/image%20%2817%29.png)
+![](.gitbook/assets/image%20%2827%29.png)
+
+![](.gitbook/assets/image%20%2819%29.png)
 
 ### 3. Protect Subnet 테이블 구성. 
 
 
 
-![](.gitbook/assets/image%20%2826%29.png)
+![](.gitbook/assets/image%20%2828%29.png)
 
-![](.gitbook/assets/image%20%2821%29.png)
+![](.gitbook/assets/image%20%2823%29.png)
 
-![](.gitbook/assets/image%20%2833%29.png)
+![](.gitbook/assets/image%20%2835%29.png)
 
 ### 4. 트래픽 흐름 확인   
 
 
 
-![](.gitbook/assets/image%20%2818%29.png)
+![](.gitbook/assets/image%20%2820%29.png)
 
-![](.gitbook/assets/image%20%2832%29.png)
+![](.gitbook/assets/image%20%2834%29.png)
+
+```text
+./ec2-query.sh
+```
+
+```text
+aws ec2 describe-instances --region us-west-2 --query 'Reservations[].Instances[].[Tags[?Key==`Name`] | [0].Value, Placement.AvailabilityZone,InstanceId, InstanceType, ImageId,State.Name, PrivateIpAddress, PublicIpAddress ]' --output table
+```
+
+```text
+-----------------------------------------------------------------------------------------------------------------------------------------
+|                                                           DescribeInstances                                                           |
++-----------------+-------------+----------------------+-----------+------------------------+----------+--------------+-----------------+
+|  Protect-EC2-101|  us-west-2a |  i-040d4d15aebc8fb32 |  t3.small |  ami-0e472933a1395e172 |  running |  10.1.1.101  |  52.34.16.59    |
+|  Protect-EC2-102|  us-west-2a |  i-068a26aee30adb069 |  t3.small |  ami-0e472933a1395e172 |  running |  10.1.1.102  |  35.166.81.128  |
++-----------------+-------------+----------------------+-----------+------------------------+----------+--------------+-----------------+
+```
+
+```text
+ aws ssm start-session --target i-040d4d15aebc8fb32 --region us-west-2
+ aws ssm start-session --target i-068a26aee30adb069 --region us-west-2
+ 
+```
+
+```text
+sudo yum -y update
+sudo yum -y install yum-utils 
+sudo yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+sudo yum -y install iotop iperf3 iptraf tcpdump git bash-completion 
+sudo yum -y install httpd php mysql php-mysql 
+sudo yum -y install python-pip
+sudo yum -y install nethogs iftop lnav nmon tmux wireshark
+sudo systemctl start httpd
+sudo systemctl enable httpd
+cd /var/www/html/
+sudo git clone https://github.com/whchoi98/ec2meta-webpage.git
+sudo systemctl restart httpd
+exit
+
+```
+
+```text
+curl http://169.254.169.254/latest/meta-data/local-ipv4
+curl http://169.254.169.254/latest/meta-data/public-ipv4
+curl -s ifconfig.co
+```
+
+```text
+http://ec2-101-public-ip/ec2meta-webpage/index.php
+```
+
+![](.gitbook/assets/image%20%2816%29.png)
+
+```text
+http://ec2-102-public-ip/ec2meta-webpage/index.php
+```
+
+![](.gitbook/assets/image%20%2817%29.png)
+
+{% hint style="info" %}
+**방화벽을 통과하는 트래픽 흐름이지만 , 별도의 정책없이도 정상적으로 웹브라우저가 출력이 됩니다. 이 구성을 통해 알 수 있는 것은, 기본 방화벽 정은 묵시적 허용이라는 것을 알 수 있습니다.**
+{% endhint %}
 
 ## Network Firewall 상세 구성
 
