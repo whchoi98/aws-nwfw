@@ -1,2 +1,2 @@
-# Initial page
+# AWS Network Firewall Workshop
 

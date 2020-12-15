@@ -1,6 +1,6 @@
 # Table of contents
 
-* [Initial page](README.md)
+* [AWS Network Firewall Workshop](README.md)
 
 ## Network Firewall 소개
 
