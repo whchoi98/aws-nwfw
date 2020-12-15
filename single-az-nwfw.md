@@ -111,7 +111,7 @@ Cloudformation이 IAM에 접근하여 사용할 수 있도록 체크합니다.
 
 이제 라우팅 테이블을 정의하고, 인터넷과 EC2간의 통신을 확인해 봅니다.
 
-![](.gitbook/assets/image%20%2820%29.png)
+![](.gitbook/assets/image%20%2822%29.png)
 
 ### 1. VPC Ingress 라우팅 테이블 구성. 
 
@@ -121,11 +121,11 @@ Cloudformation이 IAM에 접근하여 사용할 수 있도록 체크합니다.
 
 **`Service - VPC - Virtual Private Cloud - Route Table - Create route table`**
 
-![](.gitbook/assets/image%20%2832%29.png)
+![](.gitbook/assets/image%20%2835%29.png)
 
 신규 생성한 InternetGateway용 라우팅 테이블을 선택하고, **`Edge Associations`** 를 선택합니다.
 
-![](.gitbook/assets/image%20%2825%29.png)
+![](.gitbook/assets/image%20%2827%29.png)
 
 InternetGateway용 라우팅 테이블을 InternetGateway\(이하 IGW\)에 연결합니다.
 
@@ -133,7 +133,7 @@ InternetGateway용 라우팅 테이블을 InternetGateway\(이하 IGW\)에 연�
 
 연결하면 아래와 같이 정상적으로 IGW에 라우팅 테이블\(Ingress Routing\)이 생성됩니다.
 
-![](.gitbook/assets/image%20%2827%29.png)
+![](.gitbook/assets/image%20%2829%29.png)
 
 이제 인터넷에서 유입되는 트래픽이 Firewall Endpoint를 향하도록 Ingress Routing을 설정합니다.
 
@@ -147,23 +147,23 @@ InternetGateway용 라우팅 테이블을 InternetGateway\(이하 IGW\)에 연�
 **Target이 Gateway Load Balancer Endpoint가 되어야 하는 이유는 앞서 설명하였습니다.**
 {% endhint %}
 
-![](.gitbook/assets/image%20%2831%29.png)
+![](.gitbook/assets/image%20%2834%29.png)
 
 Gateway Load Balancer Endpoint를 선택하게 되면, Network Firewall을 생성한 이후에 자동 생성된 VPC Endpoint를 확인할 수 있습니다. 해당 Endpoint를 선택하고 라우팅 테이블을 완료합니다.
 
-![](.gitbook/assets/image%20%2822%29.png)
+![](.gitbook/assets/image%20%2824%29.png)
 
 이제 10.1.1.0/24 로 외부에서 인입되는 트래픽은 모두 Firewall을 경유하게 됩니다.
 
-![](.gitbook/assets/image%20%2818%29.png)
+![](.gitbook/assets/image%20%2819%29.png)
 
 ### 2. FW Subnet 라우팅 테이블 구성. 
 
 FW Subnet은 인터넷으로 향하는 트래픽에 대한 라우팅 생성을 합니다.
 
-![](.gitbook/assets/image%20%2821%29.png)
-
 ![](.gitbook/assets/image%20%2823%29.png)
+
+![](.gitbook/assets/image%20%2825%29.png)
 
 ![](.gitbook/assets/image%20%2817%29.png)
 
@@ -171,15 +171,19 @@ FW Subnet은 인터넷으로 향하는 트래픽에 대한 라우팅 생성을 �
 
 
 
-![](.gitbook/assets/image%20%2824%29.png)
+![](.gitbook/assets/image%20%2826%29.png)
 
-![](.gitbook/assets/image%20%2819%29.png)
+![](.gitbook/assets/image%20%2821%29.png)
 
-![](.gitbook/assets/image%20%2830%29.png)
+![](.gitbook/assets/image%20%2833%29.png)
 
-### 4. 트래픽 흐름 확
+### 4. 트래픽 흐름 확인   
 
 
+
+![](.gitbook/assets/image%20%2818%29.png)
+
+![](.gitbook/assets/image%20%2832%29.png)
 
 ## Network Firewall 상세 구성
 
