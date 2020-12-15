@@ -6,11 +6,11 @@
 
 ## Route Table 구성
 
-### 1. VPC Ingress Routing Table 구성
+### 1. VPC Ingress 라우팅 테이 구성
 
-### 2. FW Subnet Routing Table 구성
+### 2. FW Subnet 라우팅 테이블 구성
 
-### 3. Protect Subnet Routing Table 구성
+### 3. Protect Subnet 테이블 구성
 
 
 
