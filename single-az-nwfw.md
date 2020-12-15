@@ -69,8 +69,6 @@ Cloudformation이 IAM에 접근하여 사용할 수 있도록 체크합니다.
 
 **`service - VPC - AWS Network Firewall - Firewall - Create`** 를 선택하고, Firewall과 Firewall Policy를 생성합니다.
 
-**`Service - VPC - AWS Network Firewall - Firewall - Create`**
-
 ![](.gitbook/assets/image%20%288%29.png)
 
 먼저 Firewall을 생성하고, Firewall Policy 생성하여 연결합니다. 기존에 Firewall Policy가 있다면 생성한 Firewall에 연결할 수 있습니다.
@@ -97,7 +95,7 @@ Cloudformation이 IAM에 접근하여 사용할 수 있도록 체크합니다.
 
 ![](.gitbook/assets/image%20%285%29.png)
 
-생성한 Firewall을 선택하고 Firewall details 를 선택하면, 해당 서브넷에 Endpoint가 정상적으로 생성된 것을 확인 할 수 있습니다.
+생성한 Firewall을 선택하고 **`Firewall details`** 를 선택하면, 해당 서브넷에 Endpoint가 정상적으로 생성된 것을 확인 할 수 있습니다.
 
 ![](.gitbook/assets/image%20%283%29.png)
 
@@ -111,7 +109,51 @@ Cloudformation이 IAM에 접근하여 사용할 수 있도록 체크합니다.
 
 ## Route Table 구성
 
+이제 라우팅 테이블을 정의하고, 인터넷과 EC2간의 통신을 확인해 봅니다.
+
+![](.gitbook/assets/image%20%2814%29.png)
+
 ### 1. VPC Ingress 라우팅 테이블 구성. 
+
+외부 인터넷 트래픽인 Firewall Endpoint를 경유하도록 라우팅 테이블을 구성하기 위해서는 InternetGateway 의 라우팅 테이블 구성이 필요합니다. AWS에서는 이러한 Edge에서의 라우팅 테이블 구성이 가능하도록 VPC Ingress Routing을 지원합니다.
+
+먼저 VPC Ingress Route Table을 생성합니다.
+
+**`Service - VPC - Virtual Private Cloud - Route Table - Create route table`**
+
+![](.gitbook/assets/image%20%2821%29.png)
+
+신규 생성한 InternetGateway용 라우팅 테이블을 선택하고, **`Edge Associations`** 를 선택합니다.
+
+![](.gitbook/assets/image%20%2817%29.png)
+
+InternetGateway용 라우팅 테이블을 InternetGateway\(이하 IGW\)에 연결합니다.
+
+![](.gitbook/assets/image%20%2815%29.png)
+
+연결하면 아래와 같이 정상적으로 IGW에 라우팅 테이블\(Ingress Routing\)이 생성됩니다.
+
+![](.gitbook/assets/image%20%2818%29.png)
+
+이제 인터넷에서 유입되는 트래픽이 Firewall Endpoint를 향하도록 Ingress Routing을 설정합니다.
+
+**`Route - Edit Routes`** 를 선택하고 수정합니다.
+
+![](.gitbook/assets/image%20%2816%29.png)
+
+목적지는 **`0.0.0.0/0`**을 설정하고, Target은 **`Gateway Load Balancer Endpoint`**를 선택합니다.
+
+{% hint style="info" %}
+**Target이 Gateway Load Balancer Endpoint가 되어야 하는 이유는 앞서 설명하였습니다.**
+{% endhint %}
+
+![](.gitbook/assets/image%20%2820%29.png)
+
+Gateway Load Balancer Endpoint를 선택하게 되면, Network Firewall을 생성한 이후에 자동 생성된 VPC Endpoint를 확인할 수 있습니다. 해당 Endpoint를 선택하고 라우팅 테이블을 완료합니다.
+
+![](.gitbook/assets/image%20%2819%29.png)
+
+
 
 ### 2. FW Subnet 라우팅 테이블 구성. 
 
