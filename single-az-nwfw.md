@@ -213,10 +213,20 @@ EC2에 이미 System Manager Agent가 설치되어 Web에서 접속이 가능합
 
 AWS CLI 가 설치된 경우에는  Session Manager Plugin을 설치하여, CLI로 구성과 시험이 가능합니다. \([AWS CLI용 Session Manager  Plugin 설치](https://docs.aws.amazon.com/ko_kr/systems-manager/latest/userguide/session-manager-working-with-install-plugin.html) \)
 
+본 랩에서는 Cloudshell을 사용합니다.
+
+**`Service - Cloudshell`** 을 선택하여, Cloudshell 콘솔을 실행합니다. 아래와 같이 session-manager-plugin 을 설치하고, 랩에 필요한 yml 및 source 들을 설치합니다.
+
+```text
+curl "https://s3.amazonaws.com/session-manager-downloads/plugin/latest/linux_64bit/session-manager-plugin.rpm" -o "session-manager-plugin.rpm"
+sudo yum install -y session-manager-plugin.rpm
+git clone https://github.com/whchoi98/aws-nwfw-source
+```
+
 앞서 Git을 통해 다운로드 받은파일 가운데 shell 또는 아래 aws cli를 통해 배포된 인스턴스 id를 확인합니다.
 
 ```text
-./ec2-query.sh
+./aws-nwfw-source/ec2-query.sh
 ```
 
 ```text
@@ -232,30 +242,35 @@ aws ec2 describe-instances --region us-west-2 --query 'Reservations[].Instances[
 +-----------------+-------------+----------------------+-----------+------------------------+----------+--------------+-----------------+
 ```
 
+인스턴스 id를 Shell에 저장해 둡니다.
+
+```text
+export VPC1_AZA_101="i-040d4d15aebc8fb32"
+export VPC1_AZA_102="i-068a26aee30adb069"
+echo "export VPC1_AZA_101=$VPC1_AZA_101" | tee -a ~/.bash_profile
+echo "export VPC1_AZA_102=$VPC1_AZA_102" | tee -a ~/.bash_profile
+echo $VPC1_AZA_101
+echo $VPC1_AZA_102
+
+```
+
 아래와 같은 방법으로 Session Manager를 통해 인스턴스에 접속합니다.
 
 ```text
- aws ssm start-session --target i-040d4d15aebc8fb32 --region us-west-2
- aws ssm start-session --target i-068a26aee30adb069 --region us-west-2
+#VPC1 AZ-A EC2-101
+aws ssm start-session --target $VPC1_AZA_101 --region us-west-2
+sudo -s
+su ec2-user
+cd ~
  
 ```
 
-인스턴스에 접근 후에 아래 패키지와 설정을 추가합니다. \(cloudformation을 통해 이미 설치되지만, 설치되어 있지 않은 경우에는 설치합니다.\)
-
 ```text
-sudo yum -y update
-sudo yum -y install yum-utils 
-sudo yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
-sudo yum -y install iotop iperf3 iptraf tcpdump git bash-completion 
-sudo yum -y install httpd php mysql php-mysql 
-sudo yum -y install python-pip
-sudo yum -y install nethogs iftop lnav nmon tmux wireshark
-sudo systemctl start httpd
-sudo systemctl enable httpd
-cd /var/www/html/
-sudo git clone https://github.com/whchoi98/ec2meta-webpage.git
-sudo systemctl restart httpd
-exit
+#VPC1 AZ-A EC2-102
+aws ssm start-session --target $VPC1_AZA_102 --region us-west-2
+sudo -s
+su ec2-user
+cd ~
 
 ```
 
@@ -265,9 +280,10 @@ exit
 curl http://169.254.169.254/latest/meta-data/local-ipv4
 curl http://169.254.169.254/latest/meta-data/public-ipv4
 curl -s ifconfig.co
+
 ```
 
-각 인스턴스의 Public IP 주소로 아래 웹사이트에 접근해 봅니다.
+웹브라우저에서 각 인스턴스의 Public IP 주소로 아래 웹사이트에 접근해 봅니다.
 
 ```text
 http://ec2-101-public-ip/ec2meta-webpage/index.php
@@ -290,6 +306,41 @@ http://ec2-102-public-ip/ec2meta-webpage/index.php
 이제 트래픽의 흐름을 아래와 같이 이해 할 수 있습니다. 
 
 ![](.gitbook/assets/image%20%2833%29.png)
+
+EC2-101에서 EC2-102로 Curl을 통해 트래픽 흐름을 확인 해 볼 수 있습니다. 아래 명령을 CloudShell에서 Session Manager를 접속한 상태에서 실행해 봅니다.
+
+```text
+#EC2-101
+curl -I http://ec2-102-public-ip/ec2meta-webpage/index.php
+```
+
+```text
+#EC2-102
+sudo tcpdump -i eth0 src ec2-101-public-ip
+```
+
+아래 처럼 결과가 출력됩니다.
+
+```text
+[ec2-user@ip-10-1-1-101 ~]$ curl -I http://35.166.81.128/ec2meta-webpage/index.php
+HTTP/1.1 200 OK
+Date: Tue, 15 Dec 2020 23:47:15 GMT
+Server: Apache/2.4.46 () PHP/5.4.16
+Upgrade: h2,h2c
+Connection: Upgrade
+X-Powered-By: PHP/5.4.16
+Content-Type: text/html; charset=UTF-8
+
+```
+
+```text
+[ec2-user@ip-10-1-1-102 ~]$ sudo tcpdump -i eth0 src 52.34.16.59
+tcpdump: verbose output suppressed, use -v or -vv for full protocol decode
+listening on eth0, link-type EN10MB (Ethernet), capture size 262144 bytes
+23:47:11.940652 IP ec2-52-34-16-59.us-west-2.compute.amazonaws.com.45606 > ip-10-1-1-102.us-west-2.compute.internal.http: Flags [S], seq 3254533980, win 26883, options [mss 1460,sackOK,TS val 2878837554 ecr 0,nop,wscale 7], length 0
+23:47:11.968465 IP ec2-52-34-16-59.us-west-2.compute.amazonaws.com.45606 > ip-10-1-1-102.us-west-2.compute.internal.http: Flags [.], ack 3141908793, win 211, options [nop,nop,TS val 2878837576 ecr 3940610722], length 0
+23:47:11.968479 IP ec2-52-34-16-59.us-west-2.compute.amazonaws.com.45606 > ip-10-1-1-102.us-west-2.compute.internal.http: Flags [P.], seq 0:102, ack 1, win 211, options [nop,nop,TS val 2878837577 ecr 3940610722], length 102: HTTP: HEAD /ec2meta-webpage/index.ph HTTP/1.1
+```
 
 ## Network Firewall 상세 구성
 
