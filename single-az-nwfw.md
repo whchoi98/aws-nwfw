@@ -121,11 +121,11 @@ Cloudformation이 IAM에 접근하여 사용할 수 있도록 체크합니다.
 
 **`Service - VPC - Virtual Private Cloud - Route Table - Create route table`**
 
-![](.gitbook/assets/image%20%2821%29.png)
+![](.gitbook/assets/image%20%2825%29.png)
 
 신규 생성한 InternetGateway용 라우팅 테이블을 선택하고, **`Edge Associations`** 를 선택합니다.
 
-![](.gitbook/assets/image%20%2817%29.png)
+![](.gitbook/assets/image%20%2819%29.png)
 
 InternetGateway용 라우팅 테이블을 InternetGateway\(이하 IGW\)에 연결합니다.
 
@@ -133,7 +133,7 @@ InternetGateway용 라우팅 테이블을 InternetGateway\(이하 IGW\)에 연�
 
 연결하면 아래와 같이 정상적으로 IGW에 라우팅 테이블\(Ingress Routing\)이 생성됩니다.
 
-![](.gitbook/assets/image%20%2818%29.png)
+![](.gitbook/assets/image%20%2821%29.png)
 
 이제 인터넷에서 유입되는 트래픽이 Firewall Endpoint를 향하도록 Ingress Routing을 설정합니다.
 
@@ -141,19 +141,21 @@ InternetGateway용 라우팅 테이블을 InternetGateway\(이하 IGW\)에 연�
 
 ![](.gitbook/assets/image%20%2816%29.png)
 
-목적지는 **`0.0.0.0/0`**을 설정하고, Target은 **`Gateway Load Balancer Endpoint`**를 선택합니다.
+목적지는 **`0.0.0.0/0`**을 설정하고, Target은 **`Gateway Load Balancer Endpoint`**를 선택합니다.​
 
 {% hint style="info" %}
 **Target이 Gateway Load Balancer Endpoint가 되어야 하는 이유는 앞서 설명하였습니다.**
 {% endhint %}
 
-![](.gitbook/assets/image%20%2820%29.png)
+![](.gitbook/assets/image%20%2824%29.png)
 
 Gateway Load Balancer Endpoint를 선택하게 되면, Network Firewall을 생성한 이후에 자동 생성된 VPC Endpoint를 확인할 수 있습니다. 해당 Endpoint를 선택하고 라우팅 테이블을 완료합니다.
 
-![](.gitbook/assets/image%20%2819%29.png)
+![](.gitbook/assets/image%20%2818%29.png)
 
+이제 10.1.1.0/24 로 외부에서 인입되는 트래픽은 모두 Firewall을 경유하게 됩니다.
 
+![](.gitbook/assets/image%20%2817%29.png)
 
 ### 2. FW Subnet 라우팅 테이블 구성. 
 
