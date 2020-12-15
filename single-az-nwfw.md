@@ -121,7 +121,7 @@ Cloudformation이 IAM에 접근하여 사용할 수 있도록 체크합니다.
 
 **`Service - VPC - Virtual Private Cloud - Route Table - Create route table`**
 
-![](.gitbook/assets/image%20%2838%29.png)
+![](.gitbook/assets/image%20%2839%29.png)
 
 신규 생성한 InternetGateway용 라우팅 테이블을 선택하고, **`Edge Associations`** 를 선택합니다.
 
@@ -147,7 +147,7 @@ InternetGateway용 라우팅 테이블을 InternetGateway\(이하 IGW\)에 연�
 **Target이 Gateway Load Balancer Endpoint가 되어야 하는 이유는 앞서 설명하였습니다.**
 {% endhint %}
 
-![](.gitbook/assets/image%20%2837%29.png)
+![](.gitbook/assets/image%20%2838%29.png)
 
 Gateway Load Balancer Endpoint를 선택하게 되면, Network Firewall을 생성한 이후에 자동 생성된 VPC Endpoint를 확인할 수 있습니다. 해당 Endpoint를 선택하고 라우팅 테이블을 완료합니다.
 
@@ -189,7 +189,7 @@ Protect Subnet을 위한 라우팅을 선택하고, **`Route-Edit Routes`** 를 
 
 Protect Subnet을 위한 라우팅 테이블이 정상적으로 구성되었는 지 확인합니다.
 
-![](.gitbook/assets/image%20%2836%29.png)
+![](.gitbook/assets/image%20%2837%29.png)
 
 ### 4. 트래픽 흐름 확인   
 
@@ -209,7 +209,7 @@ Protect Subnet의 EC2 자원은 IGW와 1:1 NAT 구성이 되도록 설정되어 
 
 EC2에 이미 System Manager Agent가 설치되어 Web에서 접속이 가능합니다. 접속을 원하는 EC2 인스턴스를 선택하고 **`Start Session`**을 시작합니다.
 
-![](.gitbook/assets/image%20%2835%29.png)
+![](.gitbook/assets/image%20%2836%29.png)
 
 AWS CLI 가 설치된 경우에는  Session Manager Plugin을 설치하여, CLI로 구성과 시험이 가능합니다. \([AWS CLI용 Session Manager  Plugin 설치](https://docs.aws.amazon.com/ko_kr/systems-manager/latest/userguide/session-manager-working-with-install-plugin.html) \)
 
@@ -287,7 +287,9 @@ http://ec2-102-public-ip/ec2meta-webpage/index.php
 **방화벽을 통과하는 트래픽 흐름이지만 , 별도의 정책없이도 정상적으로 웹브라우저가 출력이 됩니다. 이 구성을 통해 알 수 있는 것은, 기본 방화벽 정은 묵시적 허용이라는 것을 알 수 있습니다.**
 {% endhint %}
 
-\*\*\*\*
+이제 트래픽의 흐름을 아래와 같이 이해 할 수 있습니다. 
+
+![](.gitbook/assets/image%20%2833%29.png)
 
 ## Network Firewall 상세 구성
 
