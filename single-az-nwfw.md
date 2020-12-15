@@ -121,11 +121,11 @@ Cloudformation이 IAM에 접근하여 사용할 수 있도록 체크합니다.
 
 **`Service - VPC - Virtual Private Cloud - Route Table - Create route table`**
 
-![](.gitbook/assets/image%20%2837%29.png)
+![](.gitbook/assets/image%20%2838%29.png)
 
 신규 생성한 InternetGateway용 라우팅 테이블을 선택하고, **`Edge Associations`** 를 선택합니다.
 
-![](.gitbook/assets/image%20%2829%29.png)
+![](.gitbook/assets/image%20%2830%29.png)
 
 InternetGateway용 라우팅 테이블을 InternetGateway\(이하 IGW\)에 연결합니다.
 
@@ -133,7 +133,7 @@ InternetGateway용 라우팅 테이블을 InternetGateway\(이하 IGW\)에 연�
 
 연결하면 아래와 같이 정상적으로 IGW에 라우팅 테이블\(Ingress Routing\)이 생성됩니다.
 
-![](.gitbook/assets/image%20%2831%29.png)
+![](.gitbook/assets/image%20%2832%29.png)
 
 이제 인터넷에서 유입되는 트래픽이 Firewall Endpoint를 향하도록 Ingress Routing을 설정합니다.
 
@@ -147,7 +147,7 @@ InternetGateway용 라우팅 테이블을 InternetGateway\(이하 IGW\)에 연�
 **Target이 Gateway Load Balancer Endpoint가 되어야 하는 이유는 앞서 설명하였습니다.**
 {% endhint %}
 
-![](.gitbook/assets/image%20%2836%29.png)
+![](.gitbook/assets/image%20%2837%29.png)
 
 Gateway Load Balancer Endpoint를 선택하게 되면, Network Firewall을 생성한 이후에 자동 생성된 VPC Endpoint를 확인할 수 있습니다. 해당 Endpoint를 선택하고 라우팅 테이블을 완료합니다.
 
@@ -183,17 +183,37 @@ Protect Subnet을 위한 라우팅을 선택하고, **`Route-Edit Routes`** 를 
 
 ![](.gitbook/assets/image%20%2828%29.png)
 
+ Protect Subnet에 속한 자원들이 외부로 트래픽을 보낼 때 모두 Firewall을 통과하도록, 모든 라우팅 목적지를 Firewall VPC Endpoint로 향하게 구성합니다.
+
 ![](.gitbook/assets/image%20%2823%29.png)
 
-![](.gitbook/assets/image%20%2835%29.png)
+Protect Subnet을 위한 라우팅 테이블이 정상적으로 구성되었는 지 확인합니다.
+
+![](.gitbook/assets/image%20%2836%29.png)
 
 ### 4. 트래픽 흐름 확인   
 
+이제 모든 라우팅 구성은 완료되었습니다. 앞서 Cloudformation 구성에서 보호할 EC2 자원들에 대한 Security Group은 이미 설정되어 있습니다.
 
+![](.gitbook/assets/image%20%2829%29.png)
+
+또한 System Manager를 통한 Session Manager구성도 Cloudformation을 통해 구성되어 있습니다. 본 랩에서는 Session Manager를 통해서 접속해서 시험합니다.
+
+{% hint style="success" %}
+Protect Subnet의 EC2 자원은 IGW와 1:1 NAT 구성이 되도록 설정되어 있습니다. Session Manager 뿐만 아니라, SSH 접속도 가능합니다. 하지만 보안 정책 테스트를 하기 어렵기 때문에 Session Manager로 접속하는 것을 권고합니다.
+{% endhint %}
+
+**`Service - System Manager - Session Manager`** 를 선택하고, **`Start Session`**을 선택합니다.
 
 ![](.gitbook/assets/image%20%2820%29.png)
 
-![](.gitbook/assets/image%20%2834%29.png)
+EC2에 이미 System Manager Agent가 설치되어 Web에서 접속이 가능합니다. 접속을 원하는 EC2 인스턴스를 선택하고 **`Start Session`**을 시작합니다.
+
+![](.gitbook/assets/image%20%2835%29.png)
+
+AWS CLI 가 설치된 경우에는  Session Manager Plugin을 설치하여, CLI로 구성과 시험이 가능합니다. \([AWS CLI용 Session Manager  Plugin 설치](https://docs.aws.amazon.com/ko_kr/systems-manager/latest/userguide/session-manager-working-with-install-plugin.html) \)
+
+앞서 Git을 통해 다운로드 받은파일 가운데 shell 또는 아래 aws cli를 통해 배포된 인스턴스 id를 확인합니다.
 
 ```text
 ./ec2-query.sh
@@ -212,11 +232,15 @@ aws ec2 describe-instances --region us-west-2 --query 'Reservations[].Instances[
 +-----------------+-------------+----------------------+-----------+------------------------+----------+--------------+-----------------+
 ```
 
+아래와 같은 방법으로 Session Manager를 통해 인스턴스에 접속합니다.
+
 ```text
  aws ssm start-session --target i-040d4d15aebc8fb32 --region us-west-2
  aws ssm start-session --target i-068a26aee30adb069 --region us-west-2
  
 ```
+
+인스턴스에 접근 후에 아래 패키지와 설정을 추가합니다. \(cloudformation을 통해 이미 설치되지만, 설치되어 있지 않은 경우에는 설치합니다.\)
 
 ```text
 sudo yum -y update
@@ -235,11 +259,15 @@ exit
 
 ```
 
+각 인스턴스에서 아래 명령을 통해 local\(Private\) IP 주소와 공인\(Public\) IP를 확인합니다.
+
 ```text
 curl http://169.254.169.254/latest/meta-data/local-ipv4
 curl http://169.254.169.254/latest/meta-data/public-ipv4
 curl -s ifconfig.co
 ```
+
+각 인스턴스의 Public IP 주소로 아래 웹사이트에 접근해 봅니다.
 
 ```text
 http://ec2-101-public-ip/ec2meta-webpage/index.php
@@ -253,13 +281,25 @@ http://ec2-102-public-ip/ec2meta-webpage/index.php
 
 ![](.gitbook/assets/image%20%2817%29.png)
 
+모든 인스턴스에 정상적으로 접속되는 것을 확인할 수 있습니다.
+
 {% hint style="info" %}
 **방화벽을 통과하는 트래픽 흐름이지만 , 별도의 정책없이도 정상적으로 웹브라우저가 출력이 됩니다. 이 구성을 통해 알 수 있는 것은, 기본 방화벽 정은 묵시적 허용이라는 것을 알 수 있습니다.**
 {% endhint %}
 
 ## Network Firewall 상세 구성
 
+이제 생성된 Firewall과 Firewall Policy에 Rule\(보안 규칙\)을 설정하여, 상세한 보안 규칙들을 설정해 봅니다.
+
 ### 1.Firewall 구성 이해
+
+먼저 Firewall 구성은 아래와 같은 방식으로 구성할 수 있습니다.
+
+
+
+AWS Network Firewall은 아래와 같은 보안 규칙을 사용합니다.
+
+
 
 ### 2.Firewall Rule의 이해와 구성
 
