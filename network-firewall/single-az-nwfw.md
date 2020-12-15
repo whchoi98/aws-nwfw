@@ -10,9 +10,13 @@
 
 ## Cloudformation 배포
 
+### 1.구성 목표. 
+
 먼저 아래의 Cloudformation을 배포합니다. Cloudformation 구성을 배포하게 되면 아래와 같은 구성이 완료됩니다.
 
-![\[Cloudformation &#xAE30;&#xBC18;&#xC758; &#xBC30;&#xD3EC;\]](../.gitbook/assets/image%20%281%29.png)
+![\[Cloudformation &#xAE30;&#xBC18;&#xC758; &#xBC30;&#xD3EC; &#xC544;&#xD0A4;&#xD14D;&#xCCD0;\]](../.gitbook/assets/image%20%281%29.png)
+
+### 2.Cloudformation 생성. 
 
 ![](../.gitbook/assets/image%20%282%29.png)
 
@@ -26,7 +30,7 @@
 
 
 
-## Network Firewall 기본 구
+## Network Firewall 기본 구성. 
 
 ### 1.Network Firewall 생성. 
 
