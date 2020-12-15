@@ -1,12 +1,16 @@
+---
+description: 'Update : 2020-12-15'
+---
+
 # Network Firewall 기본 구성
 
 ## 구성  아키텍쳐 소개
 
+Network Firewall의 기본 동작 이해를 위해, 가장 기본이 되는 디자인을 먼저 구성해 봅니다. 
+
+아래 그림은 이번 Chapter에서 구성해 볼 아키텍쳐 입니다. 인터넷으로 부터 AWS 자원을 보호하기 위해, 네트워크 방화벽 서브넷을 배치하고 인터넷을 통과하는 모든 트래픽은 네트워크 방화벽을 통과하게 하는 일반적인 On Prem구성과 유사합니다.
+
 ![\[Network Firewall &#xAE30;&#xBCF8; &#xAD6C;&#xC131; &#xC544;&#xD0A4;&#xD14D;&#xCCD0;\]](../.gitbook/assets/image%20%2810%29.png)
-
-
-
-
 
 ## Cloudformation 배포
 
