@@ -58,12 +58,16 @@ Cloudformation이 IAM에 접근하여 사용할 수 있도록 체크합니다.
 ![](../.gitbook/assets/image%20%2812%29.png)
 
 {% hint style="info" %}
-본 랩에서는 EC2의 자원들에 손쉽게 접근 할 수 있도록 모두 Session Manager 접근 구성을 Cloudformation으로 배포합니다.
+**본 랩에서는 EC2의 자원들에 손쉽게 접근 할 수 있도록 모두 Session Manager 접근 구성을 Cloudformation으로 배포합니다. AWS 콘솔이나, 다른 배포 도구로 구성하셔도 랩을 진행하는데는 이슈가 없습니다.**
 {% endhint %}
 
 ## Network Firewall 기본 구성. 
 
+먼저 Network Firewall을 생성합니다. 기본 Firewall Policy가 생성되어 있지 않기 때문에, 함께 생성합니다.
+
 ### 1.Network Firewall 및 Policy 생성.
+
+**`service - VPC - AWS Network Firewall - Firewall - Create`** 를 선택하고, Firewall과 Firewall Policy를 생성합니다.
 
 **`Service - VPC - AWS Network Firewall - Firewall - Create`**
 
