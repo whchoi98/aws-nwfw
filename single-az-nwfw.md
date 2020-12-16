@@ -20,7 +20,7 @@ Cloudformation을 통해 기본이 되는 VPC구성을 먼저 구성합니다.
 
 먼저 아래의 Cloudformation을 배포합니다. Cloudformation 구성을 배포하게 되면 아래와 같은 구성이 완료됩니다.
 
-Routing Table 구성과 Network Firewall 구성만 별도로 진행하게 됩니다.
+Routing Table 구성과 Network Firewall 구성은 다음단계에 별도로 진행하게 됩니다.
 
 ![\[Cloudformation &#xAE30;&#xBC18;&#xC758; &#xBC30;&#xD3EC; &#xC544;&#xD0A4;&#xD14D;&#xCCD0;\]](.gitbook/assets/image%20%286%29.png)
 
@@ -193,7 +193,7 @@ Protect Subnet을 위한 라우팅 테이블이 정상적으로 구성되었는 
 
 ### 4. 트래픽 흐름 확인   
 
-이제 모든 라우팅 구성은 완료되었습니다. 앞서 Cloudformation 구성에서 보호할 EC2 자원들에 대한 Security Group은 이미 설정되어 있습니다.
+이제 모든 라우팅 구성은 완료되었습니다. 앞서 Cloudformation 을 통해서 생성한 EC2 자원들에 대한 Security Group은 이미 설정되어 있습니다.
 
 ![](.gitbook/assets/image%20%2829%29.png)
 
@@ -283,7 +283,7 @@ curl -s ifconfig.co
 
 ```
 
-웹브라우저에서 각 인스턴스의 Public IP 주소로 아래 웹사이트에 접근해 봅니다.
+먼저 사용자 웹브라우저에서 각 인스턴스의 Public IP 주소로 아래 웹사이트에 접근해 봅니다.
 
 ```text
 http://ec2-101-public-ip/ec2meta-webpage/index.php
