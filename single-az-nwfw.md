@@ -486,7 +486,7 @@ curl -I www.google.com
 
 ```
 
-
+아래와 같이 모든 인스턴스에서 www.google.com 의 접속이 filtering 됩니다.
 
 ![](.gitbook/assets/image%20%2867%29.png)
 
@@ -500,11 +500,20 @@ AWS Network Firewall의 Stateful IPS는 Suricata IPS를 통해서, Deep Inspecti
 
 **`VPC-Firewall policies - 생성한 Policy - Stateful rule groups - Add rule groups - Create and add new stateful  rule group`**
 
+Stateful rule group을 생성합니다.
 
+1. **Name : Stateful Rule 이름을 정의합니다.**
+2. **Capacity : Rule Group의 Rule의 숫자를 정의합니다.\(최대 10,000개\)**
+3. **Stateful rule group options : Suricata IPS Rule을 선택합니다.**
+4. **Suricata IPS Rule을 설정합니다.**
+
+**www.google.com을 Filtering하는 예제를 설정해 봅니다.**
 
 ![](.gitbook/assets/image%20%2863%29.png)
 
-![](.gitbook/assets/image%20%2865%29.png)
+![](.gitbook/assets/image%20%2879%29.png)
+
+IPS Rule은 아래와 같이 구성해 봅니다.
 
 ```text
 # 10.1.1.101 을 소스로 Contents에 AWS가 포함되면 Alert을 발생.
@@ -519,20 +528,25 @@ drop http any any -> [10.1.1.101,10.1.1.102] any (msg: "User agent"; http.user_a
 Suricata Rule은 [https://suricata.readthedocs.io/en/latest/index.html](https://suricata.readthedocs.io/en/latest/index.html) 을 참고하여서 , 정책을 생성할 수 있습니다.
 {% endhint %}
 
-![](.gitbook/assets/image%20%2871%29.png)
+각 인스턴스에 접속해서,  아래 명령을 통해 접속 하거나, Web 브라우저에서 접속해 봅니다.
 
 ```text
-#EC2-101,102
-curl -I http://ec2-101-public-ip/ec2meta-webpage/index.php
+#EC2-101
 curl -I http://ec2-102-public-ip/ec2meta-webpage/index.php
+#EC2-102
+curl -I http://ec2-101-public-ip/ec2meta-webpage/index.php
 
 ```
 
+사용자 브라우저에서, Firefox와 Chrom을 통해서 EC2-101,102의 공인 IP 주소로 접속해 봅니다. 아래에서 처럼 Firefox는 접속되지 않습니다.
+
 ![](.gitbook/assets/image%20%2864%29.png)
 
-
-
 ## Cloudwatch Monitoring
+
+![](.gitbook/assets/image%20%2877%29.png)
+
+![](.gitbook/assets/image%20%2878%29.png)
 
 
 
