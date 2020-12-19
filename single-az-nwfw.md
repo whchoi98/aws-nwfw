@@ -32,13 +32,19 @@ git clone https://github.com/whchoi98/aws-nwfw-source
 
 ### 2.Cloudformation 생성. 
 
+#### 1.스택 생성.
+
 먼저 새로운 스택을 생성합니다.
 
 ![](.gitbook/assets/image%20%289%29.png)
 
+#### 2.Cloudformation 파일 업로드 
+
 앞서 다운로드 받은 git 파일 중에서 ``**`"singleaz-vpc1-az-a.yml"`** 파일을 업로드 합니다.
 
 ![](.gitbook/assets/image%20%282%29.png)
+
+#### 3.Stack 상세 내용 정의 
 
 stack의 상세내용을 정의합니다.
 
