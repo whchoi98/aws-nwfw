@@ -511,7 +511,7 @@ Stateful rule group을 생성합니다.
 
 ![](.gitbook/assets/image%20%2863%29.png)
 
-![](.gitbook/assets/image%20%2884%29.png)
+![](.gitbook/assets/image%20%2885%29.png)
 
 IPS Rule은 아래와 같이 구성해 봅니다.
 
@@ -542,7 +542,7 @@ curl -I http://ec2-101-public-ip/ec2meta-webpage/index.php
 
 ![](.gitbook/assets/image%20%2864%29.png)
 
-## Task 5. Network Firewall Logging
+## Task 5. Network Firewall Logging 및 모니터링.
 
 ### 1.Loggin 목적지 설정
 
@@ -556,7 +556,7 @@ Cloudwatch log group을 지정하고, Log를 살펴봅니다.
 
 **`Cloudwatch - Cloudwatch logs - log groups`** 를 선택하고, **`Create log group`** 을 선택해서 Log Group을 생성합니다.
 
-![](.gitbook/assets/image%20%2882%29.png)
+![](.gitbook/assets/image%20%2883%29.png)
 
 Alert , Flow log group을 각각 생성합니다.
 
@@ -566,7 +566,7 @@ Alert , Flow log group을 각각 생성합니다.
 
 생성된 Log group을 확인합니다. 
 
-![](.gitbook/assets/image%20%2883%29.png)
+![](.gitbook/assets/image%20%2884%29.png)
 
 ### 2. Firewall logging 구성. 
 
@@ -623,5 +623,20 @@ Block 된 로그를 확인합니다. Signature ID 103에 의해서 Block 된 것
 drop http any any -> [10.1.1.101,10.1.1.102] any (msg: "User agent"; http.user_agent; content:"Firefox"; sid:103; rev:1;)
 ```
 
-![](.gitbook/assets/image%20%2885%29.png)
+![](.gitbook/assets/image%20%2886%29.png)
+
+### 4. Firewall Monitoring
+
+Firewall 에 대한 간단한 모니터링을 아래 메뉴를 통해서 확인 할 수 있습니다.
+
+VPC - Firewall - 생성한 Firewall - Monitoring
+
+* **Stateless ReceivedPackets**
+* **Stateless DroppedPackets**
+* **Stateless PassedPackets**
+* **Stateful ReceivedPackets**
+* **Stateful DroppedPackets**
+* **Stateful PassedPackets**
+
+![](.gitbook/assets/image%20%2882%29.png)
 
