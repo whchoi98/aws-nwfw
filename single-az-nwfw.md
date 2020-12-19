@@ -511,7 +511,7 @@ Stateful rule group을 생성합니다.
 
 ![](.gitbook/assets/image%20%2863%29.png)
 
-![](.gitbook/assets/image%20%2879%29.png)
+![](.gitbook/assets/image%20%2884%29.png)
 
 IPS Rule은 아래와 같이 구성해 봅니다.
 
@@ -542,11 +542,75 @@ curl -I http://ec2-101-public-ip/ec2meta-webpage/index.php
 
 ![](.gitbook/assets/image%20%2864%29.png)
 
-## Cloudwatch Monitoring
+## Task 5. Network Firewall Logging
 
-![](.gitbook/assets/image%20%2877%29.png)
+### 1.Loggin 목적지 설정
+
+Network Firewall은 Logging 목적지를 3가지 지원합니다.
+
+* S3 - bucket name과 Prefix를 설정합니다.
+* Cloudwatch - Cloudwatch Log group을 지정합니다.
+* Kinesis data firehose - Kinesis data firehose delivery stream name을 설정합니다.
+
+Cloudwatch log group을 지정하고, Log를 살펴봅니다.
+
+**`Cloudwatch - Cloudwatch logs - log groups`** 를 선택하고, **`Create log group`** 을 선택해서 Log Group을 생성합니다.
+
+![](.gitbook/assets/image%20%2882%29.png)
+
+Alert , Flow log group을 각각 생성합니다.
+
+* Log group name : NWFW-Alert , NWFW-Flow
+
+![](.gitbook/assets/image%20%2881%29.png)
+
+생성된 Log group을 확인합니다. 
+
+![](.gitbook/assets/image%20%2883%29.png)
+
+### 2. Firewall logging 구성. 
+
+이제 다시 Network Firewall에서 Logging 구성을 진행합니다.
+
+**`VPC-Firewalls- 생성한 Firewall`** 
 
 ![](.gitbook/assets/image%20%2878%29.png)
 
+Firewall details 메뉴를 선택하고, logging 메뉴에서 Edit 를 선택합니다.
 
+**`VPC -Firewalls - 생성한 Firewall - Firewall details - Logging - Edit`**
+
+![](.gitbook/assets/image%20%2880%29.png)
+
+firewall loggig을 구성합니다.
+
+1. **log type - Alert, Flow 로그를 선택합니다.**
+2. **log destination for alert - Alert logging 목적지를 선택합니다.**
+3. **log destination for flows - flow logging 목적지를 선택합니다.**
+
+Lab 에서는 앞서 이미 생성한 CloudWatch log group을 선택합니다.
+
+![](.gitbook/assets/image%20%2879%29.png)
+
+### 3. Firewall Logging 확인.
+
+사용자 랩탑에서 EC2 101,102 의 공인 주소로 Firefox로 접속해 봅니다.
+
+각 인스턴스에 접속해서,  아래 명령을 통해 접속 하거나, Web 브라우저에서 접속해 봅니다.
+
+```text
+#EC2-101
+curl -I http://ec2-102-public-ip/ec2meta-webpage/index.php
+#EC2-102
+curl -I http://ec2-101-public-ip/ec2meta-webpage/index.php
+
+```
+
+사용자 브라우저에서, Firefox와 Chrom을 통해서 EC2-101,102의 공인 IP 주소로 접속해 봅니다. 아래에서 처럼 Firefox는 접속되지 않습니다. 관련 로그를 CloudWatch에서 확인해 봅니다.
+
+![](.gitbook/assets/image%20%2864%29.png)
+
+
+
+![](.gitbook/assets/image%20%2877%29.png)
 
