@@ -354,9 +354,16 @@ listening on eth0, link-type EN10MB (Ethernet), capture size 262144 bytes
 
 먼저 Firewall 구성은 아래와 같은 방식으로 구성할 수 있습니다.
 
+![](.gitbook/assets/image%20%2859%29.png)
 
+1. Firewall 을 생성합니다.
+2. Firewall Policy를 생성합니다.
+3. Stateless Rule 을 생성합니다.
+4. Stateful Rule을 생성합니다.
+5. Stateful Rule의 Domain list 을 생성합니다.
+6. Stateful Rule의 Suricata IPS Rule을 생성합니다.
 
-AWS Network Firewall은 아래와 같은 보안 규칙을 사용합니다.
+앞서 Firewa
 
 ### 2.Firewall Policy 생성
 
@@ -380,7 +387,7 @@ AWS Network Firewall은 아래와 같은 보안 규칙을 사용합니다.
 
 
 
-![](.gitbook/assets/image%20%2871%29.png)
+![](.gitbook/assets/image%20%2872%29.png)
 
 ![](.gitbook/assets/image%20%2851%29.png)
 
@@ -390,9 +397,9 @@ AWS Network Firewall은 아래와 같은 보안 규칙을 사용합니다.
 
 ![](.gitbook/assets/image%20%2858%29.png)
 
-![](.gitbook/assets/image%20%2861%29.png)
+![](.gitbook/assets/image%20%2862%29.png)
 
-![](.gitbook/assets/image%20%2865%29.png)
+![](.gitbook/assets/image%20%2866%29.png)
 
 ![](.gitbook/assets/image%20%2855%29.png)
 
@@ -414,11 +421,11 @@ curl -I www.google.com
 
 ```
 
-![](.gitbook/assets/image%20%2866%29.png)
+![](.gitbook/assets/image%20%2867%29.png)
 
-![](.gitbook/assets/image%20%2862%29.png)
+![](.gitbook/assets/image%20%2863%29.png)
 
-![](.gitbook/assets/image%20%2864%29.png)
+![](.gitbook/assets/image%20%2865%29.png)
 
 ```text
 # 10.1.1.101 을 소스로 Contents에 AWS가 포함되면 Alert을 발생.
@@ -433,9 +440,18 @@ drop http any any -> [10.1.1.101,10.1.1.102] any (msg: "User agent"; http.user_a
 Suricata Rule은 [https://suricata.readthedocs.io/en/latest/index.html](https://suricata.readthedocs.io/en/latest/index.html) 을 참고하여서 , 정책을 생성할 수 있습니다.
 {% endhint %}
 
-![](.gitbook/assets/image%20%2870%29.png)
+![](.gitbook/assets/image%20%2871%29.png)
 
-![](.gitbook/assets/image%20%2863%29.png)
+```text
+#EC2-101,102
+curl -I http://ec2-101-public-ip/ec2meta-webpage/index.php
+curl -I http://ec2-102-public-ip/ec2meta-webpage/index.php
+
+```
+
+![](.gitbook/assets/image%20%2864%29.png)
+
+
 
 ## Cloudwatch Monitoring
 
