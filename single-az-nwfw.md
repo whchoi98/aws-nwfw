@@ -356,12 +356,12 @@ listening on eth0, link-type EN10MB (Ethernet), capture size 262144 bytes
 
 ![](.gitbook/assets/image%20%2859%29.png)
 
-1. Firewall 을 생성합니다.
-2. Firewall Policy를 생성합니다.
-3. Stateless Rule 을 생성합니다.
-4. Stateful Rule을 생성합니다.
-5. Stateful Rule의 Domain list 을 생성합니다.
-6. Stateful Rule의 Suricata IPS Rule을 생성합니다.
+1. **Firewall 을 생성합니다.**
+2. **Firewall Policy를 생성합니다.**
+3. **Stateless Rule 을 생성합니다.**
+4. **Stateful Rule을 생성합니다.**
+5. **Stateful Rule의 Domain list 을 생성합니다.**
+6. **Stateful Rule의 Suricata IPS Rule을 생성합니다.**
 
 앞서 Firewall과 Firewall 정책은 생성 완료했습니다. [\(Task2. Network Firewall 기본 구성\)](single-az-nwfw.md#task-2-network-firewall)
 
@@ -387,14 +387,14 @@ Network Firewall의 정책을 이해하기 위해 아래 그림을 이해해야 
 
 Stateless rule group을 생성합니다.
 
-1. Name : Stateless Rule 이름을 정의합니다.
-2. Capacity : Rule Group의 Rule의 숫자를 정의합니다.
-3. Priority : Stateless Rule의 Priority를 정의합니다. Rule 번호를 의미하며 Rule 번호가 우선 순위를 가지게 됩니다. \(NACL과 규칙 동일\)
-4. Protocol : 프로토콜을 정의합니다.
-5. Source IP/Port 
-6. Destination IP/Port
-7. Action : Pass/Drop/Forward to stateful rule groups 를 선택합니다. 
-8. Add rule : 생성한 Rule을 추가합니다.
+1. **Name : Stateless Rule 이름을 정의합니다.**
+2. **Capacity : Rule Group의 Rule의 숫자를 정의합니다.\(최대 10,000개\)**
+3. **Priority : Stateless Rule의 Priority를 정의합니다. Rule 번호를 의미하며 Rule 번호가 우선 순위를 가지게 됩니다. \(NACL과 규칙 동일\)**
+4. **Protocol : 프로토콜을 정의합니다.**
+5. **Source IP/Port** 
+6. **Destination IP/Port**
+7. **Action : Pass/Drop/Forward to stateful rule groups 를 선택합니다.** 
+8. **Add rule : 생성한 Rule을 추가합니다.**
 
 ![](.gitbook/assets/image%20%2846%29.png)
 
@@ -410,13 +410,34 @@ Rule을 추가하면 , 추가된 Rule 을 확인하고 생성완료합니다.
 
 ### 4. Stateful Rule 구성 
 
+새로운 Stateful Rule Group 생성을 합니다.
+
+**`VPC-Firewall policies - 생성한 Policy - Stateful rule groups - Add rule groups - Create and add new stateful  rule group`**
+
 ![](.gitbook/assets/image%20%2872%29.png)
+
+Stateful rule group을 생성합니다.
+
+1. **Name : Stateful Rule 이름을 정의합니다.**
+2. **Capacity : Rule Group의 Rule의 숫자를 정의합니다.\(최대 10,000개\)**
+3. **Stateful rule group options : 5 tuple을 선택합니다.**
+4. **Protocol : 프로토콜을 정의합니다.**
+5. **Source IP/Port** 
+6. **Destination IP/Port**
+7. **Traffic direction : Any/Forward를 선택합니.** 
+8. **Action : Pass,Drop,Alert 을 선택합니다.**
+
+**SSH 에 대한 정책을 임의로 생성해 봅니다. \(10.1.1.101 인스턴스에 대한 SSH Drop\)**
 
 ![](.gitbook/assets/image%20%2851%29.png)
 
 ![](.gitbook/assets/image%20%2854%29.png)
 
+Rule을 추가하면 , 추가된 Rule 을 확인하고 생성완료합니다.
+
 ![](.gitbook/assets/image%20%2852%29.png)
+
+
 
 ![](.gitbook/assets/image%20%2858%29.png)
 
