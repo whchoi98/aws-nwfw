@@ -12,7 +12,7 @@ Network Firewall의 기본 동작 이해를 위해, 가장 기본이 되는 디�
 
 ![\[Network Firewall &#xAE30;&#xBCF8; &#xAD6C;&#xC131; &#xC544;&#xD0A4;&#xD14D;&#xCCD0;\]](.gitbook/assets/image%20%2810%29.png)
 
-## Cloudformation 배포
+## Task1.Cloudformation 배포 
 
 Cloudformation을 통해 기본이 되는 VPC구성을 먼저 구성합니다.
 
@@ -32,21 +32,15 @@ git clone https://github.com/whchoi98/aws-nwfw-source
 
 ### 2.Cloudformation 생성. 
 
-#### 1.스택 생성.
-
-먼저 새로운 스택을 생성합니다.
+#### 먼저 새로운 스택을 생성합니다.
 
 ![](.gitbook/assets/image%20%289%29.png)
 
-#### 2.Cloudformation 파일 업로드 
-
-앞서 다운로드 받은 git 파일 중에서 ``**`"singleaz-vpc1-az-a.yml"`** 파일을 업로드 합니다.
+#### 앞서 다운로드 받은 git 파일 중에서 ``**`"singleaz-vpc1-az-a.yml"`** 파일을 업로드 합니다.
 
 ![](.gitbook/assets/image%20%282%29.png)
 
-#### 3.Stack 상세 내용 정의 
-
-stack의 상세내용을 정의합니다.
+#### stack의 상세내용을 정의합니다.
 
 * stack name : Stack name을 정의합니다.
 * VPC Parameters - AvailablilityZoneA : AZ를 선택합니다.
@@ -55,7 +49,7 @@ stack의 상세내용을 정의합니다.
 
 ![](.gitbook/assets/image%20%2813%29.png)
 
-Cloudformation이 IAM에 접근하여 사용할 수 있도록 체크합니다.
+#### Cloudformation이 IAM에 접근하여 사용할 수 있도록 체크합니다.
 
 ![](.gitbook/assets/image%20%2811%29.png)
 
@@ -67,7 +61,7 @@ Cloudformation이 IAM에 접근하여 사용할 수 있도록 체크합니다.
 **본 랩에서는 EC2의 자원들에 손쉽게 접근 할 수 있도록 모두 Session Manager 접근 구성을 Cloudformation으로 배포합니다. AWS 콘솔이나, 다른 배포 도구로 구성하셔도 랩을 진행하는데는 이슈가 없습니다.**
 {% endhint %}
 
-## Network Firewall 기본 구성. 
+## Task2. Network Firewall 기본 구성. 
 
 먼저 Network Firewall을 생성합니다. 기본 Firewall Policy가 생성되어 있지 않기 때문에, 함께 생성합니다.
 
@@ -77,7 +71,9 @@ Cloudformation이 IAM에 접근하여 사용할 수 있도록 체크합니다.
 
 ![](.gitbook/assets/image%20%288%29.png)
 
-먼저 Firewall을 생성하고, Firewall Policy 생성하여 연결합니다. 기존에 Firewall Policy가 있다면 생성한 Firewall에 연결할 수 있습니다.
+#### 먼저 Firewall을 생성하고, Firewall Policy 생성하여 연결합니다.
+
+기존에 Firewall Policy가 있다면 생성한 Firewall에 연결할 수 있습니다.
 
 1. **Name** : 방화벽 이름을 정의합니다. 
 2. **Description\(Optional\)** : 방화벽에 대한 설명을 정의합니다.
@@ -113,7 +109,7 @@ Cloudformation이 IAM에 접근하여 사용할 수 있도록 체크합니다.
 **Endpoint 메뉴에서 특이점을 발견할 수 있습니다. Endpoint type이 GatewayLoadBalancer 라는 것입니다. 이것은 Firewall Endpoint가 별도로 생성되지 않고, GatewayLoadBalancer를 그대로 사용한다는 것입니다. 즉 동작방식이 GatewayLoadBalancer를 이용한다는 것을 알 수 있습니다.**
 {% endhint %}
 
-## Route Table 구성
+## Task3. VPC Route Table 구성
 
 이제 라우팅 테이블을 정의하고, 인터넷과 EC2간의 통신을 확인해 봅니다.
 
@@ -123,7 +119,7 @@ Cloudformation이 IAM에 접근하여 사용할 수 있도록 체크합니다.
 
 외부 인터넷 트래픽인 Firewall Endpoint를 경유하도록 라우팅 테이블을 구성하기 위해서는 InternetGateway 의 라우팅 테이블 구성이 필요합니다. AWS에서는 이러한 Edge에서의 라우팅 테이블 구성이 가능하도록 VPC Ingress Routing을 지원합니다.
 
-먼저 VPC Ingress Route Table을 생성합니다.
+####  VPC Ingress Route Table을 생성합니다.
 
 **`Service - VPC - Virtual Private Cloud - Route Table - Create route table`**
 
@@ -165,7 +161,7 @@ Gateway Load Balancer Endpoint를 선택하게 되면, Network Firewall을 생�
 
 ### 2. FW Subnet 라우팅 테이블 구성. 
 
-FW Subnet은 인터넷으로 향하는 트래픽에 대한 라우팅 생성을 합니다. Ingress Routing은 별도로 구성할 필요가 없습니다. 이미 Local Routing이 자동 구성되기 때문입니다.
+FW Subnet은 인터넷으로 향하는 트래픽에 대한 라우팅 생성을 합니다. Ingress Routing은 별도로 구성할 필요가 없습니다. VPC를 구성할때 CIDR를 생성하면 자동으 Local Routing이 구성되기 때문입니다. 
 
 FW Subnet Routing Table을 선택하고, **`Route-Edit Routes`** 를 선택합니다.
 
@@ -173,7 +169,7 @@ FW Subnet Routing Table을 선택하고, **`Route-Edit Routes`** 를 선택합�
 
 Ingress Routing은 Local이 이미 구성되어 있으므로 별도 구성없이, Egress Routing에 대한 구성만 합니다. 
 
-외부로 향하는 트래픽은 모두 IGW로 향하도록 구성하고 저장합니다.
+외부로 향하는 트래픽은 모두 목적지 IGW로 향하도록 구성하고 저장합니다.
 
 ![](.gitbook/assets/image%20%2827%29.png)
 
@@ -219,25 +215,27 @@ EC2에 이미 System Manager Agent가 설치되어 Web에서 접속이 가능합
 
 AWS CLI 가 설치된 경우에는  Session Manager Plugin을 설치하여, CLI로 구성과 시험이 가능합니다. \([AWS CLI용 Session Manager  Plugin 설치](https://docs.aws.amazon.com/ko_kr/systems-manager/latest/userguide/session-manager-working-with-install-plugin.html) \)
 
-본 랩에서는 Cloudshell을 사용합니다.
+본 랩에서는 Cloudshell을 사용해서, Session Manager를 사용합니다.
 
 **`Service - Cloudshell`** 을 선택하여, Cloudshell 콘솔을 실행합니다. 아래와 같이 session-manager-plugin 을 설치하고, 랩에 필요한 yml 및 source 들을 설치합니다.
+
+![](.gitbook/assets/image%20%2840%29.png)
 
 ```text
 curl "https://s3.amazonaws.com/session-manager-downloads/plugin/latest/linux_64bit/session-manager-plugin.rpm" -o "session-manager-plugin.rpm"
 sudo yum install -y session-manager-plugin.rpm
 git clone https://github.com/whchoi98/aws-nwfw-source
+
 ```
 
 앞서 Git을 통해 다운로드 받은파일 가운데 shell 또는 아래 aws cli를 통해 배포된 인스턴스 id를 확인합니다.
 
 ```text
-./aws-nwfw-source/ec2-query.sh
+./aws-nwfw-source/ec2-query.sh >>vpc1-ec2.txt
+
 ```
 
-```text
-aws ec2 describe-instances --region us-west-2 --query 'Reservations[].Instances[].[Tags[?Key==`Name`] | [0].Value, Placement.AvailabilityZone,InstanceId, InstanceType, ImageId,State.Name, PrivateIpAddress, PublicIpAddress ]' --output table
-```
+vpc1-ec2.txt 결과의 예입니다.
 
 ```text
 -----------------------------------------------------------------------------------------------------------------------------------------
@@ -280,7 +278,7 @@ cd ~
 
 ```
 
-각 인스턴스에서 아래 명령을 통해 local\(Private\) IP 주소와 공인\(Public\) IP를 확인합니다.
+각 인스턴스에서 아래 명령을 통해 생성된 EC2 인스턴스들의 local\(Private\) IP 주소와 공인\(Public\) IP를 확인합니다.
 
 ```text
 curl http://169.254.169.254/latest/meta-data/local-ipv4
@@ -348,7 +346,7 @@ listening on eth0, link-type EN10MB (Ethernet), capture size 262144 bytes
 23:47:11.968479 IP ec2-52-34-16-59.us-west-2.compute.amazonaws.com.45606 > ip-10-1-1-102.us-west-2.compute.internal.http: Flags [P.], seq 0:102, ack 1, win 211, options [nop,nop,TS val 2878837577 ecr 3940610722], length 102: HTTP: HEAD /ec2meta-webpage/index.ph HTTP/1.1
 ```
 
-## Network Firewall 상세 구성
+## Task4. Network Firewall 상세 구성
 
 이제 생성된 Firewall과 Firewall Policy에 Rule\(보안 규칙\)을 설정하여, 상세한 보안 규칙들을 설정해 봅니다.
 
