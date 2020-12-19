@@ -380,15 +380,45 @@ AWS Network Firewall은 아래와 같은 보안 규칙을 사용합니다.
 
 
 
-![](.gitbook/assets/image%20%2854%29.png)
+![](.gitbook/assets/image%20%2868%29.png)
 
 ![](.gitbook/assets/image%20%2851%29.png)
 
+![](.gitbook/assets/image%20%2854%29.png)
+
 ![](.gitbook/assets/image%20%2852%29.png)
 
-![](.gitbook/assets/image%20%2853%29.png)
+![](.gitbook/assets/image%20%2858%29.png)
 
+![](.gitbook/assets/image%20%2860%29.png)
 
+![](.gitbook/assets/image%20%2863%29.png)
+
+![](.gitbook/assets/image%20%2855%29.png)
+
+```text
+aws ssm start-session --target $VPC1_AZA_101
+sudo -s
+su ec2-user
+cd ~
+curl -I www.google.com
+
+```
+
+```text
+aws ssm start-session --target $VPC1_AZA_102
+sudo -s
+su ec2-user
+cd ~
+curl -I www.google.com
+
+```
+
+![](.gitbook/assets/image%20%2864%29.png)
+
+![](.gitbook/assets/image%20%2861%29.png)
+
+![](.gitbook/assets/image%20%2862%29.png)
 
 ## Cloudwatch Monitoring
 
