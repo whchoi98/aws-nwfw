@@ -219,7 +219,7 @@ AWS CLI 가 설치된 경우에는  Session Manager Plugin을 설치하여, CLI�
 
 **`Service - Cloudshell`** 을 선택하여, Cloudshell 콘솔을 실행합니다. 아래와 같이 session-manager-plugin 을 설치하고, 랩에 필요한 yml 및 source 들을 설치합니다.
 
-![](.gitbook/assets/image%20%2840%29.png)
+![](.gitbook/assets/image%20%2841%29.png)
 
 ```text
 curl "https://s3.amazonaws.com/session-manager-downloads/plugin/latest/linux_64bit/session-manager-plugin.rpm" -o "session-manager-plugin.rpm"
@@ -358,9 +358,37 @@ listening on eth0, link-type EN10MB (Ethernet), capture size 262144 bytes
 
 AWS Network Firewall은 아래와 같은 보안 규칙을 사용합니다.
 
+### 2.Firewall Policy 생성
 
 
-### 2.Firewall Rule의 이해와 구성
+
+### 3.Firewall Rule의 이해와 구성
+
+생성한 Firewall Policy를 선택합니다.
+
+![](.gitbook/assets/image%20%2845%29.png)
+
+![](.gitbook/assets/image%20%2840%29.png)
+
+![](.gitbook/assets/image%20%2846%29.png)
+
+![](.gitbook/assets/image%20%2843%29.png)
+
+![](.gitbook/assets/image%20%2848%29.png)
+
+
+
+```text
+aws ssm start-session --target $VPC1_AZA_101
+sudo -s
+su ec2-user
+ping VPC1_AZA_102_Public_IP
+
+aws ssm start-session --target $VPC1_AZA_102
+sudo -s
+su ec2-user
+ping VPC1_AZA_101_Public_IP
+```
 
 
 
