@@ -367,19 +367,44 @@ listening on eth0, link-type EN10MB (Ethernet), capture size 262144 bytes
 
 ### 2.Firewall Rule의 이해와 구성
 
+Network Firewall의 정책을 이해하기 위해 아래 그림을 이해해야 합니다.
+
+![](.gitbook/assets/image%20%2876%29.png)
+
 ### 3. Stateless Rule 구성 
 
 생성한 Firewall Policy를 선택합니다.
 
+**`VPC - AWS Network Firewall`**
+
 ![](.gitbook/assets/image%20%2845%29.png)
 
+새로운 Stateless Rule Group 생성을 합니다.
+
+**`Create and add new stateless rule group`**
+
 ![](.gitbook/assets/image%20%2840%29.png)
+
+Stateless rule group을 생성합니다.
+
+1. Name : Stateless Rule 이름을 정의합니다.
+2. Capacity : Rule Group의 Rule의 숫자를 정의합니다.
+3. Priority : Stateless Rule의 Priority를 정의합니다. Rule 번호를 의미하며 Rule 번호가 우선 순위를 가지게 됩니다. \(NACL과 규칙 동일\)
+4. Protocol : 프로토콜을 정의합니다.
+5. Source IP/Port 
+6. Destination IP/Port
+7. Action : Pass/Drop/Forward to stateful rule groups 를 선택합니다. 
+8. Add rule : 생성한 Rule을 추가합니다.
 
 ![](.gitbook/assets/image%20%2846%29.png)
 
 ![](.gitbook/assets/image%20%2843%29.png)
 
+Rule을 추가하면 , 추가된 Rule 을 확인하고 생성완료합니다.
+
 ![](.gitbook/assets/image%20%2849%29.png)
+
+생성한 룰을 확인하기 위해 외부에서 인스턴스의 공인 IP 주소로 ICMP를 요청해 봅니다. 10.1.1.101에 Mapping 된 공인 IP주로로 ICMP가 거부되고, 10.1.1.102에 Mapping된 공인 IP주소는 응답합니다. \(NACL과 유사합니다.\)
 
 ![](.gitbook/assets/image%20%2850%29.png)
 
