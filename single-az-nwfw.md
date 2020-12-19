@@ -374,21 +374,13 @@ AWS Network Firewall은 아래와 같은 보안 규칙을 사용합니다.
 
 ![](.gitbook/assets/image%20%2843%29.png)
 
-![](.gitbook/assets/image%20%2848%29.png)
+![](.gitbook/assets/image%20%2849%29.png)
+
+![](.gitbook/assets/image%20%2850%29.png)
 
 
 
-```text
-aws ssm start-session --target $VPC1_AZA_101
-sudo -s
-su ec2-user
-ping VPC1_AZA_102_Public_IP
 
-aws ssm start-session --target $VPC1_AZA_102
-sudo -s
-su ec2-user
-ping VPC1_AZA_101_Public_IP
-```
 
 
 
