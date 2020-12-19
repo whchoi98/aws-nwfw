@@ -363,13 +363,11 @@ listening on eth0, link-type EN10MB (Ethernet), capture size 262144 bytes
 5. Stateful Rule의 Domain list 을 생성합니다.
 6. Stateful Rule의 Suricata IPS Rule을 생성합니다.
 
-앞서 Firewa
+앞서 Firewall과 Firewall 정책은 생성 완료했습니다. [\(Task2. Network Firewall 기본 구성\)](single-az-nwfw.md#task-2-network-firewall)
 
-### 2.Firewall Policy 생성
+### 2.Firewall Rule의 이해와 구성
 
-
-
-### 3.Firewall Rule의 이해와 구성
+### 3. Stateless Rule 구성 
 
 생성한 Firewall Policy를 선택합니다.
 
@@ -385,7 +383,7 @@ listening on eth0, link-type EN10MB (Ethernet), capture size 262144 bytes
 
 ![](.gitbook/assets/image%20%2850%29.png)
 
-
+### 4. Stateful Rule 구성 
 
 ![](.gitbook/assets/image%20%2872%29.png)
 
@@ -396,6 +394,8 @@ listening on eth0, link-type EN10MB (Ethernet), capture size 262144 bytes
 ![](.gitbook/assets/image%20%2852%29.png)
 
 ![](.gitbook/assets/image%20%2858%29.png)
+
+### 5. Stateful Domain list Rule 구성 
 
 ![](.gitbook/assets/image%20%2862%29.png)
 
@@ -422,6 +422,14 @@ curl -I www.google.com
 ```
 
 ![](.gitbook/assets/image%20%2867%29.png)
+
+### 6. Suricata IPS Rule 구성 
+
+Suricata는 IDS\(탐지\)/IPS\(탐지,차단\)가 가능한 Open source 도구 입니다. Snort와 완벽하게 호환이 가능하며, 멀티 쓰레드 지원과 GPU 지원등으로 성능 부분에서 높은 평가를 받고 있습니다. \(2020년 부터 Snort 3.0 출시와 함께 멀티 쓰레지 지원\)
+
+AWS Network Firewall의 Stateful IPS는 Suricata IPS를 통해서, Deep Inspection구현이 가능합니다. 또한 상용도구와 연계도 가능합니다. \(2020년 12월 현재 기준 Fortinet 지원- 상용\)
+
+
 
 ![](.gitbook/assets/image%20%2863%29.png)
 
