@@ -439,6 +439,8 @@ Rule을 추가하면 , 추가된 Rule 을 확인하고 생성완료합니다.
 
 랩탑에서 SSH를 접속해 봅니다. \(아래 그림은 Mac에서 실행한 화면입니다. Window 사용자는 Putty를 통해 접속해 봅니다. [Putty 접속](https://awskocaptain.gitbook.io/imd-general/ec2/ec2-linux#task-3-ec2) \) 
 
+Stateful Rule에 의해서 , EC20-102\(10.1.1.102\) 인스턴스만 접속이 가능합니다.
+
 ![](.gitbook/assets/image%20%2858%29.png)
 
 ### 5. Stateful Domain list Rule 구성 
