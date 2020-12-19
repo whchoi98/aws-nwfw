@@ -380,7 +380,7 @@ AWS Network Firewall은 아래와 같은 보안 규칙을 사용합니다.
 
 
 
-![](.gitbook/assets/image%20%2868%29.png)
+![](.gitbook/assets/image%20%2871%29.png)
 
 ![](.gitbook/assets/image%20%2851%29.png)
 
@@ -390,9 +390,9 @@ AWS Network Firewall은 아래와 같은 보안 규칙을 사용합니다.
 
 ![](.gitbook/assets/image%20%2858%29.png)
 
-![](.gitbook/assets/image%20%2860%29.png)
+![](.gitbook/assets/image%20%2861%29.png)
 
-![](.gitbook/assets/image%20%2863%29.png)
+![](.gitbook/assets/image%20%2865%29.png)
 
 ![](.gitbook/assets/image%20%2855%29.png)
 
@@ -414,11 +414,28 @@ curl -I www.google.com
 
 ```
 
-![](.gitbook/assets/image%20%2864%29.png)
-
-![](.gitbook/assets/image%20%2861%29.png)
+![](.gitbook/assets/image%20%2866%29.png)
 
 ![](.gitbook/assets/image%20%2862%29.png)
+
+![](.gitbook/assets/image%20%2864%29.png)
+
+```text
+# 10.1.1.101 을 소스로 Contents에 AWS가 포함되면 Alert을 발생.
+alert tcp 10.1.1.101 any -> any any (msg: "No access to the EC2-1 Webpage"; content: "AWS"; sid: 101; rev:1;)
+alert tcp 10.1.1.102 any -> any any (msg: "No access to the EC2-1 Webpage"; content: "AWS"; sid: 102; rev:1;)
+# 10.1.1.101,10.1.1.102 를 접속하는 User Agent가 Firefox 브라우저는 Drop.
+drop http any any -> [10.1.1.101,10.1.1.102] any (msg: "User agent"; http.user_agent; content:"Firefox"; sid:103; rev:1;)
+
+```
+
+{% hint style="info" %}
+Suricata Rule은 [https://suricata.readthedocs.io/en/latest/index.html](https://suricata.readthedocs.io/en/latest/index.html) 을 참고하여서 , 정책을 생성할 수 있습니다.
+{% endhint %}
+
+![](.gitbook/assets/image%20%2870%29.png)
+
+![](.gitbook/assets/image%20%2863%29.png)
 
 ## Cloudwatch Monitoring
 
