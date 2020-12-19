@@ -424,7 +424,7 @@ Stateful rule group을 생성합니다.
 4. **Protocol : 프로토콜을 정의합니다.**
 5. **Source IP/Port** 
 6. **Destination IP/Port**
-7. **Traffic direction : Any/Forward를 선택합니.** 
+7. **Traffic direction : Any/Forward를 선택합니다 .** 
 8. **Action : Pass,Drop,Alert 을 선택합니다.**
 
 **SSH 에 대한 정책을 임의로 생성해 봅니다. \(10.1.1.101 인스턴스에 대한 SSH Drop\)**
@@ -445,11 +445,28 @@ Stateful Rule에 의해서 , EC20-102\(10.1.1.102\) 인스턴스만 접속이 �
 
 ### 5. Stateful Domain list Rule 구성 
 
+새로운 Stateful Rule Group 생성을 합니다.
+
+**`VPC-Firewall policies - 생성한 Policy - Stateful rule groups - Add rule groups - Create and add new stateful  rule group`**
+
 ![](.gitbook/assets/image%20%2862%29.png)
+
+Stateful rule group을 생성합니다.
+
+1. **Name : Stateful Rule 이름을 정의합니다.**
+2. **Capacity : Rule Group의 Rule의 숫자를 정의합니다.\(최대 10,000개\)**
+3. **Stateful rule group options : Domain list을 선택합니다.**
+4. **Domain list - Rule에 정의할 도메인을 정의합니다. \(예. www.google.com\)**
+5. **Protocol : HTTP/HTTPS 를 선택합니다.**
+6. **Action : Allow/Deny 선택합니다.**
+
+**www.google.com을 Filtering하는 예제를 설정해 봅니다.**
 
 ![](.gitbook/assets/image%20%2866%29.png)
 
 ![](.gitbook/assets/image%20%2855%29.png)
+
+[Task.VPC Route Table 구성-4.트래픽 흐름 확인](single-az-nwfw.md#4) 에서 구성한 CloudShell에서 2개의 창을 열고, 아래과 같은 명령을 통해 각각의 인스턴스에 Session Manager를 통해 접속합니다.
 
 ```text
 aws ssm start-session --target $VPC1_AZA_101
@@ -469,6 +486,8 @@ curl -I www.google.com
 
 ```
 
+
+
 ![](.gitbook/assets/image%20%2867%29.png)
 
 ### 6. Suricata IPS Rule 구성 
@@ -476,6 +495,10 @@ curl -I www.google.com
 Suricata는 IDS\(탐지\)/IPS\(탐지,차단\)가 가능한 Open source 도구 입니다. Snort와 완벽하게 호환이 가능하며, 멀티 쓰레드 지원과 GPU 지원등으로 성능 부분에서 높은 평가를 받고 있습니다. \(2020년 부터 Snort 3.0 출시와 함께 멀티 쓰레지 지원\)
 
 AWS Network Firewall의 Stateful IPS는 Suricata IPS를 통해서, Deep Inspection구현이 가능합니다. 또한 상용도구와 연계도 가능합니다. \(2020년 12월 현재 기준 Fortinet 지원- 상용\)
+
+새로운 Stateful Rule Group 생성을 합니다.
+
+**`VPC-Firewall policies - 생성한 Policy - Stateful rule groups - Add rule groups - Create and add new stateful  rule group`**
 
 
 
