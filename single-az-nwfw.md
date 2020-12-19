@@ -380,7 +380,13 @@ AWS Network Firewall은 아래와 같은 보안 규칙을 사용합니다.
 
 
 
+![](.gitbook/assets/image%20%2854%29.png)
 
+![](.gitbook/assets/image%20%2851%29.png)
+
+![](.gitbook/assets/image%20%2852%29.png)
+
+![](.gitbook/assets/image%20%2853%29.png)
 
 
 
