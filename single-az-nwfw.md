@@ -610,7 +610,18 @@ curl -I http://ec2-101-public-ip/ec2meta-webpage/index.php
 
 ![](.gitbook/assets/image%20%2864%29.png)
 
+Cloudwatch에서 Alert log를 선택합니다.
 
+**`Cloudwatch - Cloudwatch logs - log groups - Alert log`**
 
 ![](.gitbook/assets/image%20%2877%29.png)
+
+Block 된 로그를 확인합니다. Signature ID 103에 의해서 Block 된 것을 확인 할 수 있습니다.
+
+```text
+# 10.1.1.101,10.1.1.102 를 접속하는 User Agent가 Firefox 브라우저는 Drop.
+drop http any any -> [10.1.1.101,10.1.1.102] any (msg: "User agent"; http.user_agent; content:"Firefox"; sid:103; rev:1;)
+```
+
+![](.gitbook/assets/image%20%2885%29.png)
 
