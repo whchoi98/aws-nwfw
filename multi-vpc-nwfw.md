@@ -6,7 +6,7 @@ Network Firewall의 기본 동작 이해를 위해, 가장 기본이 되는 디�
 
 아래 그림은 이번 Chapter에서 구성해 볼 아키텍쳐 입니다. 인터넷으로 부터 AWS 자원을 보호하기 위해, 네트워크 방화벽 서브넷을 배치하고 인터넷을 통과하는 모든 트래픽은 네트워크 방화벽을 통과하게 하는 일반적인 On Prem구성과 유사합니다.
 
-![](.gitbook/assets/image%20%2880%29.png)
+![](.gitbook/assets/image%20%2881%29.png)
 
 ## ‌ Task1.Cloudformation 배포 ‌ 
 
@@ -18,7 +18,7 @@ Cloudformation을 통해 기본이 되는 VPC구성을 먼저 구성합니다.
 
 ‌ Routing Table 구성과 Network Firewall 구성은 다음단계에 별도로 진행하게 됩니다.
 
-![](.gitbook/assets/image%20%2883%29.png)
+![](.gitbook/assets/image%20%2884%29.png)
 
 아래 Github에서 실습에 사용할 Cloudformation yml 파일을 다운로드 받습니다.
 
@@ -32,7 +32,16 @@ git clone https://github.com/whchoi98/aws-nwfw-source
 
 ![](.gitbook/assets/image%20%289%29.png)
 
+#### 앞서 다운로드 받은 git 파일 중에서**`"singleaz-vpc1-az-a.yml"`** 파일을 업로드 합니다.
 
+![](.gitbook/assets/image%20%2878%29.png)
+
+#### stack의 상세내용을 정의합니다.
+
+* stack name : Stack name을 정의합니다.
+* VPC Parameters - AvailablilityZoneA : AZ를 선택합니다.
+* KeyPair:사용할 KeyPair를 선택합니다. \(사전에 keypair를 생성해 두어야 합니다.\)
+* LatestAmiId: 최신의 Amazon Linux2 이미지가 자동 선언됩니다
 
 
 
