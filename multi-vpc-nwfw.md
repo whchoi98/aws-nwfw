@@ -6,7 +6,7 @@ Network Firewall의 기본 동작 이해를 위해, 가장 기본이 되는 디�
 
 아래 그림은 이번 Chapter에서 구성해 볼 아키텍쳐 입니다. 인터넷으로 부터 AWS 자원을 보호하기 위해, 네트워크 방화벽 서브넷을 배치하고 인터넷을 통과하는 모든 트래픽은 네트워크 방화벽을 통과하게 하는 일반적인 On Prem구성과 유사합니다.
 
-![](.gitbook/assets/image%20%2881%29.png)
+![](.gitbook/assets/image%20%2882%29.png)
 
 ## ‌ Task1.Cloudformation 배포 ‌ 
 
@@ -18,7 +18,7 @@ Cloudformation을 통해 기본이 되는 VPC구성을 먼저 구성합니다.
 
 ‌ Routing Table 구성과 Network Firewall 구성은 다음단계에 별도로 진행하게 됩니다.
 
-![](.gitbook/assets/image%20%2885%29.png)
+![](.gitbook/assets/image%20%2886%29.png)
 
 아래 Github에서 실습에 사용할 Cloudformation yml 파일을 다운로드 받습니다.
 
@@ -49,7 +49,7 @@ git clone https://github.com/whchoi98/aws-nwfw-source
 
 10분 후면 모든 자원이 생성됩니다.
 
-![](.gitbook/assets/image%20%2889%29.png)
+![](.gitbook/assets/image%20%2890%29.png)
 
 {% hint style="info" %}
 **본 랩에서는 EC2의 자원들에 손쉽게 접근 할 수 있도록 모두 Session Manager 접근 구성을 Cloudformation으로 배포합니다. AWS 콘솔이나, 다른 배포 도구로 구성하셔도 랩을 진행하는데는 이슈가 없습니다.**
@@ -79,9 +79,9 @@ git clone https://github.com/whchoi98/aws-nwfw-source
 6. **Description\(Optional\)** : 방화벽 정에 대한 설명을 정의합니다.   
 7. **Firewall Tag :** Firewall 자원에 대한 Tag를 정의합니다.
 
-![](.gitbook/assets/image%20%2886%29.png)
-
 ![](.gitbook/assets/image%20%2887%29.png)
+
+![](.gitbook/assets/image%20%2888%29.png)
 
 | Firewall Name | Firewall Policy | VPC | AZ | Subnet |
 | :--- | :--- | :--- | :--- | :--- |
@@ -94,11 +94,11 @@ git clone https://github.com/whchoi98/aws-nwfw-source
 
 방화벽을 생성하고 나면, **`provisoning`** 상태가 진행되며 완료까지 5분 내외가 소요됩니다.
 
-![](.gitbook/assets/image%20%2892%29.png)
+![](.gitbook/assets/image%20%2893%29.png)
 
 정상적으로 설치되면 아래 그림처럼 **`Status:Ready`** 상태로 변경됩니다.
 
-![](.gitbook/assets/image%20%2883%29.png)
+![](.gitbook/assets/image%20%2884%29.png)
 
 생성한 Firewall을 선택하고 **`Firewall details`** 를 선택하면, 해당 서브넷에 Endpoint가 정상적으로 생성된 것을 확인 할 수 있습니다.
 
@@ -106,7 +106,63 @@ git clone https://github.com/whchoi98/aws-nwfw-source
 
 **`Service-VPC-Virtual Private Cloud-Endpoint`** 메뉴에서 Firewall Endpoint를 확인 할 수 있습니다.
 
-![](.gitbook/assets/image%20%2888%29.png)
+![](.gitbook/assets/image%20%2889%29.png)
+
+{% hint style="info" %}
+**Endpoint 메뉴에서 특이점을 발견할 수 있습니다. Endpoint type이 GatewayLoadBalancer 라는 것입니다. 이것은 Firewall Endpoint가 별도로 생성되지 않고, GatewayLoadBalancer를 그대로 사용한다는 것입니다. 즉 동작방식이 GatewayLoadBalancer를 이용한다는 것을 알 수 있습니다.**
+{% endhint %}
+
+## Task3. VPC Route Table 구성
+
+이제 라우팅 테이블을 정의하고, 인터넷과 EC2간의 통신을 확인해 봅니다.
+
+![](.gitbook/assets/image%20%2881%29.png)
+
+### 1. VPC Ingress 라우팅 테이블 구성. 
+
+외부 인터넷 트래픽인 Firewall Endpoint를 경유하도록 라우팅 테이블을 구성하기 위해서는 InternetGateway 의 라우팅 테이블 구성이 필요합니다. AWS에서는 이러한 Edge에서의 라우팅 테이블 구성이 가능하도록 VPC Ingress Routing을 지원합니다.
+
+####  VPC Ingress Route Table을 생성합니다.
+
+**`Service - VPC - Virtual Private Cloud - Route Table - Create route table`**
+
+![](.gitbook/assets/image%20%2839%29.png)
+
+신규 생성한 InternetGateway용 라우팅 테이블을 선택하고, **`Edge Associations`** 를 선택합니다.
+
+![](.gitbook/assets/image%20%2830%29.png)
+
+InternetGateway용 라우팅 테이블을 InternetGateway\(이하 IGW\)에 연결합니다.
+
+![](.gitbook/assets/image%20%2815%29.png)
+
+연결하면 아래와 같이 정상적으로 IGW에 라우팅 테이블\(Ingress Routing\)이 생성됩니다.
+
+![](.gitbook/assets/image%20%2832%29.png)
+
+이제 인터넷에서 유입되는 트래픽이 Firewall Endpoint를 향하도록 Ingress Routing을 설정합니다.
+
+**`Route - Edit Routes`** 를 선택하고 수정합니다.
+
+![](.gitbook/assets/image%20%2818%29.png)
+
+목적지는 **`0.0.0.0/0`**을 설정하고, Target은 **`Gateway Load Balancer Endpoint`**를 선택합니다.​
+
+{% hint style="info" %}
+**Target이 Gateway Load Balancer Endpoint가 되어야 하는 이유는 앞서 설명하였습니다.**
+{% endhint %}
+
+![](.gitbook/assets/image%20%2838%29.png)
+
+Gateway Load Balancer Endpoint를 선택하게 되면, Network Firewall을 생성한 이후에 자동 생성된 VPC Endpoint를 확인할 수 있습니다. 해당 Endpoint를 선택하고 라우팅 테이블을 완료합니다.
+
+![](.gitbook/assets/image%20%2826%29.png)
+
+이제 10.1.1.0/24 로 외부에서 인입되는 트래픽은 모두 Firewall을 경유하게 됩니다.
+
+![](.gitbook/assets/image%20%2821%29.png)
+
+VPC Ingress Routing Table 구성 과정을, VPC1, VPC2, VPC3, VPC4 에 동일하게 수행합니다.
 
 
 
