@@ -541,5 +541,203 @@ curl -I www.google.com
 
 **VPC1,2,3,4의 Domain-rule-01,02,03,04 모두 확인해 봅니다.**
 
+### 6. Suricata IPS Rule 구성 
+
+Suricata는 IDS\(탐지\)/IPS\(탐지,차단\)가 가능한 Open source 도구 입니다. Snort와 완벽하게 호환이 가능하며, 멀티 쓰레드 지원과 GPU 지원등으로 성능 부분에서 높은 평가를 받고 있습니다. \(2020년 부터 Snort 3.0 출시와 함께 멀티 쓰레지 지원\)
+
+AWS Network Firewall의 Stateful IPS는 Suricata IPS를 통해서, Deep Inspection구현이 가능합니다. 또한 상용도구와 연계도 가능합니다. \(2020년 12월 현재 기준 Fortinet 지원- 상용\)
+
+| Firewall | Firewall Polices | Rule Name | Rules |
+| :--- | :--- | :--- | :--- |
+| VPC1-AZ-A-NWFW | VPC1-AZ-ANWFW-Policy-01 | Suricata-rule-01 | User agent firefox drop |
+| VPC2-AZ-A-NWFW | VPC2-AZ-ANWFW-Policy-01 | Suricata-rule-02 | User agent firefox drop |
+| VPC3-AZ-A-NWFW | VPC3-AZ-ANWFW-Policy-01 | Suricata-rule-03 | User agent firefox drop |
+| VPC4-AZ-A-NWFW | VPC4-AZ-ANWFW-Policy-01 | Suricata-rule-04 | User agent firefox drop |
+
+새로운 Stateful Rule Group 생성을 합니다.
+
+**`VPC-Firewall policies - 생성한 Policy - Stateful rule groups - Add rule groups - Create and add new stateful  rule group`**
+
+Stateful rule group을 생성합니다.
+
+1. **Name : Stateful Rule 이름을 정의합니다.**
+2. **Capacity : Rule Group의 Rule의 숫자를 정의합니다.\(최대 10,000개\)**
+3. **Stateful rule group options : Suricata IPS Rule을 선택합니다.**
+4. **Suricata IPS Rule을 설정합니다.**
+
+![](.gitbook/assets/image%20%2863%29.png)
+
+![](.gitbook/assets/image%20%2895%29.png)
+
+IPS Rule은 아래와 같이 구성해 봅니다.
+
+VPC1 - Suricata-rule-01
+
+```text
+# 10.1.1.101 을 소스로 Contents에 AWS가 포함되면 Alert을 발생.
+alert tcp 10.1.1.101 any -> any any (msg: "No access to the EC2-1 Webpage"; content: "AWS"; sid: 101; rev:1;)
+alert tcp 10.1.1.102 any -> any any (msg: "No access to the EC2-1 Webpage"; content: "AWS"; sid: 102; rev:1;)
+# 10.1.1.101,10.1.1.102 를 접속하는 User Agent가 Firefox 브라우저는 Drop.
+drop http any any -> [10.1.1.101,10.1.1.102] any (msg: "User agent"; http.user_agent; content:"Firefox"; sid:103; rev:1;)
+
+```
+
+VPC2 - Suricata-rule-02
+
+```text
+# 10.2.1.101 을 소스로 Contents에 AWS가 포함되면 Alert을 발생.
+alert tcp 10.2.1.101 any -> any any (msg: "No access to the EC2-1 Webpage"; content: "AWS"; sid: 101; rev:1;)
+alert tcp 10.2.1.102 any -> any any (msg: "No access to the EC2-1 Webpage"; content: "AWS"; sid: 102; rev:1;)
+# 10.2.1.101,10.2.1.102 를 접속하는 User Agent가 Firefox 브라우저는 Drop.
+drop http any any -> [10.2.1.101,10.2.1.102] any (msg: "User agent"; http.user_agent; content:"Firefox"; sid:103; rev:1;)
+
+```
+
+VPC3 - Suricata-rule-03
+
+```text
+# 10.3.1.101 을 소스로 Contents에 AWS가 포함되면 Alert을 발생.
+alert tcp 10.3.1.101 any -> any any (msg: "No access to the EC2-1 Webpage"; content: "AWS"; sid: 101; rev:1;)
+alert tcp 10.3.1.102 any -> any any (msg: "No access to the EC2-1 Webpage"; content: "AWS"; sid: 102; rev:1;)
+# 10.3.1.101,10.3.1.102 를 접속하는 User Agent가 Firefox 브라우저는 Drop.
+drop http any any -> [10.3.1.101,10.3.1.102] any (msg: "User agent"; http.user_agent; content:"Firefox"; sid:103; rev:1;)
+
+```
+
+VPC4 - Suricata-rule-04
+
+```text
+# 10.4.1.101 을 소스로 Contents에 AWS가 포함되면 Alert을 발생.
+alert tcp 10.4.1.101 any -> any any (msg: "No access to the EC2-1 Webpage"; content: "AWS"; sid: 101; rev:1;)
+alert tcp 10.4.1.102 any -> any any (msg: "No access to the EC2-1 Webpage"; content: "AWS"; sid: 102; rev:1;)
+# 10.4.1.101,10.4.1.102 를 접속하는 User Agent가 Firefox 브라우저는 Drop.
+drop http any any -> [10.4.1.101,10.4.1.102] any (msg: "User agent"; http.user_agent; content:"Firefox"; sid:103; rev:1;)
+
+```
+
+{% hint style="info" %}
+Suricata Rule은 [https://suricata.readthedocs.io/en/latest/index.html](https://suricata.readthedocs.io/en/latest/index.html) 을 참고하여서 , 정책을 생성할 수 있습니다.
+{% endhint %}
+
+각 인스턴스에 접속해서,  아래 명령을 통해 접속 하거나, Web 브라우저에서 접속해 봅니다.
+
+```text
+#EC2-101
+curl -I http://ec2-102-public-ip/ec2meta-webpage/index.php
+#EC2-102
+curl -I http://ec2-101-public-ip/ec2meta-webpage/index.php
+
+```
+
+사용자 브라우저에서, Firefox와 Chrom을 통해서 EC2-101,102의 공인 IP 주소로 접속해 봅니다. 아래에서 처럼 Firefox는 접속되지 않습니다.
+
+![](.gitbook/assets/image%20%2864%29.png)
+
+‌ VPC1,2,3,4의 Suricat-rule-01,02,03,04 모두 확인해 봅니다.
+
+## Task 5. Network Firewall Logging 및 모니터링.
+
+### 1.Loggin 목적지 설정
+
+Network Firewall은 Logging 목적지를 3가지 지원합니다.
+
+* S3 - bucket name과 Prefix를 설정합니다.
+* Cloudwatch - Cloudwatch Log group을 지정합니다.
+* Kinesis data firehose - Kinesis data firehose delivery stream name을 설정합니다.
+
+Cloudwatch log group을 지정하고, Log를 살펴봅니다.
+
+**`Cloudwatch - Cloudwatch logs - log groups`** 를 선택하고, **`Create log group`** 을 선택해서 Log Group을 생성합니다.
+
+![](.gitbook/assets/image%20%2892%29.png)
+
+Alert , Flow log group을 각각 생성합니다.
+
+* Log group name : 
+  * VPC1 \(NWFW-Alert-01 , NWFW-Flow-01\)
+  * VPC2 \(NWFW-Alert-02 , NWFW-Flow-02\)
+  * VPC3 \(NWFW-Alert-03 , NWFW-Flow-03\)
+  * VPC4 \(NWFW-Alert-04 , NWFW-Flow-04\)
+
+![](.gitbook/assets/image%20%2885%29.png)
+
+생성된 Log group을 확인합니다. 
+
+![](.gitbook/assets/image%20%2894%29.png)
+
+### 2. Firewall logging 구성. 
+
+이제 다시 Network Firewall에서 Logging 구성을 진행합니다.
+
+**`VPC-Firewalls- 생성한 Firewall`** 
+
+![](.gitbook/assets/image%20%2879%29.png)
+
+Firewall details 메뉴를 선택하고, logging 메뉴에서 Edit 를 선택합니다.
+
+**`VPC -Firewalls - 생성한 Firewall - Firewall details - Logging - Edit`**
+
+![](.gitbook/assets/image%20%2883%29.png)
+
+firewall loggig을 구성합니다.
+
+1. **log type - Alert, Flow 로그를 선택합니다.**
+2. **log destination for alert - Alert logging 목적지를 선택합니다.**
+3. **log destination for flows - flow logging 목적지를 선택합니다.**
+
+Lab 에서는 앞서 이미 생성한 CloudWatch log group을 선택합니다.
+
+![](.gitbook/assets/image%20%2880%29.png)
+
+### 3. Firewall Logging 확인.
+
+사용자 랩탑에서 EC2 101,102 의 공인 주소로 Firefox로 접속해 봅니다.
+
+각 인스턴스에 접속해서,  아래 명령을 통해 접속 하거나, Web 브라우저에서 접속해 봅니다.
+
+```text
+#EC2-101
+curl -I http://ec2-102-public-ip/ec2meta-webpage/index.php
+#EC2-102
+curl -I http://ec2-101-public-ip/ec2meta-webpage/index.php
+
+```
+
+사용자 브라우저에서, Firefox와 Chrom을 통해서 EC2-101,102의 공인 IP 주소로 접속해 봅니다. 아래에서 처럼 Firefox는 접속되지 않습니다. 관련 로그를 CloudWatch에서 확인해 봅니다.
+
+![](.gitbook/assets/image%20%2864%29.png)
+
+Cloudwatch에서 Alert log를 선택합니다.
+
+**`Cloudwatch - Cloudwatch logs - log groups - Alert log`**
+
+![](.gitbook/assets/image%20%2877%29.png)
+
+Block 된 로그를 확인합니다. Signature ID 103에 의해서 Block 된 것을 확인 할 수 있습니다.
+
+```text
+# 10.1.1.101,10.1.1.102 를 접속하는 User Agent가 Firefox 브라우저는 Drop.
+drop http any any -> [10.1.1.101,10.1.1.102] any (msg: "User agent"; http.user_agent; content:"Firefox"; sid:103; rev:1;)
+```
+
+![](.gitbook/assets/image%20%2896%29.png)
+
+**VPC1,2,3,4 에서도 로깅을 확인합니다.**
+
+### 4. Firewall Monitoring
+
+Firewall 에 대한 간단한 모니터링을 아래 메뉴를 통해서 확인 할 수 있습니다.
+
+VPC - Firewall - 생성한 Firewall - Monitoring
+
+* **Stateless ReceivedPackets**
+* **Stateless DroppedPackets**
+* **Stateless PassedPackets**
+* **Stateful ReceivedPackets**
+* **Stateful DroppedPackets**
+* **Stateful PassedPackets**
+
+![](.gitbook/assets/image%20%2891%29.png)
+
 ### 
 
