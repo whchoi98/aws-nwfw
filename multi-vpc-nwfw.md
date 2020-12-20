@@ -739,5 +739,31 @@ VPC - Firewall - 생성한 Firewall - Monitoring
 
 ![](.gitbook/assets/image%20%2891%29.png)
 
-### 
+## Task6. 자원 삭제
+
+1.Network Firewall  policy 에서 Rule 제거
+
+**`VPC - Firewall Policies - Firewall Polices 선택 - Stateleess Rule/Stateful rule group 제`**
+
+2. Route Table에서 GWLB Endpoint 제거
+
+VPC1-IGW-RT 제
+
+**`Virtual Private Cloud - Route Table - VPC1-IGW-RT`** 
+
+VPC1-ProtectSubnet1-RT 에서 GWLB Endpoint route 제거
+
+**`Virtual Private Cloud - Route Table - VPC1-ProtectSubnet1-RT 선택 - GWLB Endpoint Route 제거`**
+
+3. Network Firewall logging 구성 제거
+
+
+
+4. Network Firewall 제거
+
+
+
+5. Cloudformation 에서 Stack 제거
+
+**`Cloudformation - Stacks - Stack 선택 - 삭제`** 
 
