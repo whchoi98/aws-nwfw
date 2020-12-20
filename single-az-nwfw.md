@@ -511,7 +511,7 @@ Stateful rule group을 생성합니다.
 
 ![](.gitbook/assets/image%20%2863%29.png)
 
-![](.gitbook/assets/image%20%2888%29.png)
+![](.gitbook/assets/image%20%2892%29.png)
 
 IPS Rule은 아래와 같이 구성해 봅니다.
 
@@ -556,7 +556,7 @@ Cloudwatch log group을 지정하고, Log를 살펴봅니다.
 
 **`Cloudwatch - Cloudwatch logs - log groups`** 를 선택하고, **`Create log group`** 을 선택해서 Log Group을 생성합니다.
 
-![](.gitbook/assets/image%20%2886%29.png)
+![](.gitbook/assets/image%20%2889%29.png)
 
 Alert , Flow log group을 각각 생성합니다.
 
@@ -566,7 +566,7 @@ Alert , Flow log group을 각각 생성합니다.
 
 생성된 Log group을 확인합니다. 
 
-![](.gitbook/assets/image%20%2887%29.png)
+![](.gitbook/assets/image%20%2891%29.png)
 
 ### 2. Firewall logging 구성. 
 
@@ -623,7 +623,7 @@ Block 된 로그를 확인합니다. Signature ID 103에 의해서 Block 된 것
 drop http any any -> [10.1.1.101,10.1.1.102] any (msg: "User agent"; http.user_agent; content:"Firefox"; sid:103; rev:1;)
 ```
 
-![](.gitbook/assets/image%20%2889%29.png)
+![](.gitbook/assets/image%20%2893%29.png)
 
 ### 4. Firewall Monitoring
 
@@ -638,7 +638,7 @@ VPC - Firewall - 생성한 Firewall - Monitoring
 * **Stateful DroppedPackets**
 * **Stateful PassedPackets**
 
-![](.gitbook/assets/image%20%2885%29.png)
+![](.gitbook/assets/image%20%2888%29.png)
 
 ## Task6. 자원 삭제
 
