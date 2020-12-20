@@ -439,7 +439,7 @@ Rule을 추가하면 , 추가된 Rule 을 확인하고 생성완료합니다.
 
 ![](.gitbook/assets/image%20%2850%29.png)
 
-
+VPC1,2,3,4의 Network Firewall 구성을 위해 Stateless-Rule-01,02,03,04를 생성합니다.
 
 ### 4. Stateful Rule 구성 
 
