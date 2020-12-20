@@ -126,12 +126,12 @@ git clone https://github.com/whchoi98/aws-nwfw-source
 
 **`Service - VPC - Virtual Private Cloud - Route Table - Create route table`**
 
-| Route Table |  |
-| :--- | :--- |
-| VPC1-IGW-RT |  |
-| VPC2-IGW-RT |  |
-| VPC3-IGW-RT |  |
-| VPC4-IGW-RT |  |
+| Route Table | VPC | Tag |
+| :--- | :--- | :--- |
+| VPC1-IGW-RT | VPC1 | Name/VPC1-IGW-RT |
+| VPC2-IGW-RT | VPC2 | Name/VPC2-IGW-RT |
+| VPC3-IGW-RT | VPC3 | Name/VPC3-IGW-RT |
+| VPC4-IGW-RT | VPC4 | Name/VPC4-IGW-RT |
 
 ![](.gitbook/assets/image%20%2839%29.png)
 
@@ -170,6 +170,8 @@ Gateway Load Balancer Endpoint를 선택하게 되면, Network Firewall을 생�
 ![](.gitbook/assets/image%20%2821%29.png)
 
 VPC Ingress Routing Table 구성 과정을, VPC1, VPC2, VPC3, VPC4 에 동일하게 수행합니다.
+
+
 
 
 
