@@ -1,5 +1,5 @@
 ---
-description: 'Update : 2020-12-16'
+description: 'Update : 2020-12-20'
 ---
 
 # Network Firewall 기본 구성
