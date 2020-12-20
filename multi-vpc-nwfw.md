@@ -364,7 +364,7 @@ curl -s ifconfig.co
 http://ec2-101-public-ip/ec2meta-webpage/index.php
 ```
 
-![](.gitbook/assets/image%20%28100%29.png)
+![](.gitbook/assets/image%20%28102%29.png)
 
 ## Task4. Network Firewall 상세 구성
 
@@ -429,7 +429,7 @@ Stateless rule group을 생성합니다.
 
 ![](.gitbook/assets/image%20%2846%29.png)
 
-![](.gitbook/assets/image%20%2899%29.png)
+![](.gitbook/assets/image%20%28101%29.png)
 
 Rule을 추가하면 , 추가된 Rule 을 확인하고 생성완료합니다.
 
@@ -472,4 +472,72 @@ Stateful rule group을 생성합니다.
 ![](.gitbook/assets/image%20%2851%29.png)
 
 ![](.gitbook/assets/image%20%2854%29.png)
+
+Rule을 추가하면 , 추가된 Rule 을 확인하고 생성완료합니다.
+
+![](.gitbook/assets/image%20%2852%29.png)
+
+랩탑에서 SSH를 접속해 봅니다. \(아래 그림은 Mac에서 실행한 화면입니다. Window 사용자는 Putty를 통해 접속해 봅니다. [Putty 접속](https://awskocaptain.gitbook.io/imd-general/ec2/ec2-linux#task-3-ec2) \) 
+
+Stateful Rule에 의해서 , EC20-102\(10.1.1.102\) 인스턴스만 접속이 가능합니다.
+
+![](.gitbook/assets/image%20%28100%29.png)
+
+**VPC1,2,3,4의 Stateful-rule-01,02,03,04 모두 확인해 봅니다.**
+
+### 5. Stateful Domain list Rule 구성 
+
+| Firewall | Firewall Polices | Rule Name | Rules |
+| :--- | :--- | :--- | :--- |
+| VPC1-AZ-A-NWFW | VPC1-AZ-ANWFW-Policy-01 | Domain-list-rule-01 | Domain - www.google.com , Traffic to inspect - Http,Https, Action - Deny |
+| VPC2-AZ-A-NWFW | VPC2-AZ-ANWFW-Policy-01 | Domain-list-rule-02 | Domain - www.google.com , Traffic to inspect - Http,Https, Action - Deny |
+| VPC3-AZ-A-NWFW | VPC3-AZ-ANWFW-Policy-01 | Domain-list-rule-03 | Domain - www.google.com , Traffic to inspect - Http,Https, Action - Deny |
+| VPC4-AZ-A-NWFW | VPC4-AZ-ANWFW-Policy-01 | Domain-list-rule-04 | Domain - www.google.com , Traffic to inspect - Http,Https, Action - Deny |
+
+새로운 Stateful Rule Group 생성을 합니다.
+
+**`VPC-Firewall policies - 생성한 Policy - Stateful rule groups - Add rule groups - Create and add new stateful  rule group`**
+
+![](.gitbook/assets/image%20%2862%29.png)
+
+Stateful rule group을 생성합니다.
+
+1. **Name : Stateful Rule 이름을 정의합니다.**
+2. **Capacity : Rule Group의 Rule의 숫자를 정의합니다.\(최대 10,000개\)**
+3. **Stateful rule group options : Domain list을 선택합니다.**
+4. **Domain list - Rule에 정의할 도메인을 정의합니다. \(예. www.google.com\)**
+5. **Protocol : HTTP/HTTPS 를 선택합니다.**
+6. **Action : Allow/Deny 선택합니다.**
+
+**www.google.com을 Filtering하는 예제를 설정해 봅니다.**
+
+![](.gitbook/assets/image%20%2866%29.png)
+
+![](.gitbook/assets/image%20%2899%29.png)
+
+[Task.VPC Route Table 구성-4.트래픽 흐름 확인](multi-vpc-nwfw.md#4) 에서 구성한 CloudShell에서 2개의 창을 열고, 아래과 같은 명령을 통해 각각의 인스턴스에 Session Manager를 통해 접속합니다.
+
+```text
+aws ssm start-session --target $Protect_EC2_10_1_1_101
+sudo -s
+su ec2-user
+cd ~
+curl -I www.google.com
+
+```
+
+```text
+aws ssm start-session --target $Protect_EC2_10_1_1_102
+sudo -s
+su ec2-user
+cd ~
+curl -I www.google.com
+
+```
+
+아래와 같이 모든 인스턴스에서 www.google.com 의 접속이 filtering 됩니다.
+
+![](.gitbook/assets/image%20%2867%29.png)
+
+VPC1,2,3,4
 
