@@ -391,6 +391,15 @@ Network Firewall의 정책을 이해하기 위해 아래 그림을 이해해야 
 
 ![](.gitbook/assets/image%20%2876%29.png)
 
+### 3. Stateless Rule 구성 
+
+| Firewall | Firewall Polices |  | Rules |
+| :--- | :--- | :--- | :--- |
+| VPC1-AZ-A-NWFW | VPC1-AZ-ANWFW-Policy-01 | Stateless-rule-01 | priority-11, ICMP, Src-0.0.0.0/0, Dst-10.1.1.101/32, Action -Drop |
+| VPC2-AZ-A-NWFW | VPC2-AZ-ANWFW-Policy-01 | Stateless-rule-02 | priority-11, ICMP, Src-0.0.0.0/0, Dst-10.2.1.101/32, Action -Drop |
+| VPC3-AZ-A-NWFW | VPC3-AZ-ANWFW-Policy-01 | Stateless-rule-03 | priority-11, ICMP, Src-0.0.0.0/0, Dst-10.3.1.101/32, Action -Drop |
+| VPC4-AZ-A-NWFW | VPC4-AZ-ANWFW-Policy-01 | Stateless-rule-04 | priority-11, ICMP, Src-0.0.0.0/0, Dst-10.4.1.101/32, Action -Drop |
+
 생성한 Firewall Policy를 선택합니다.
 
 **`VPC - AWS Network Firewall`**
@@ -429,10 +438,6 @@ Rule을 추가하면 , 추가된 Rule 을 확인하고 생성완료합니다.
 생성한 룰을 확인하기 위해 외부에서 인스턴스의 공인 IP 주소로 ICMP를 요청해 봅니다. 10.1.1.101에 Mapping 된 공인 IP주로로 ICMP가 거부되고, 10.1.1.102에 Mapping된 공인 IP주소는 응답합니다. \(NACL과 유사합니다.\)
 
 ![](.gitbook/assets/image%20%2850%29.png)
-
-{% hint style="info" %}
-
-{% endhint %}
 
 
 
