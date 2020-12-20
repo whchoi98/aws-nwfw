@@ -189,6 +189,8 @@ Firewall 서브넷을 위한 라우팅 구성이 정상적으로 되었는지 �
 
 ![](.gitbook/assets/image%20%2819%29.png)
 
+FW Subnet Routing Table 구성 과정을, VPC1, VPC2, VPC3, VPC4 에 동일하게 수행합니다.
+
 ### 3. Protect Subnet 테이블 구성. 
 
 Ingress Routing은 이미 Local Routing 구성이 자동으로 되어 있으므로, Egress Routing에 대한 처리만 합니다.
@@ -212,7 +214,7 @@ Protect Subnet을 위한 라우팅 테이블이 정상적으로 구성되었는 
 
 ![](.gitbook/assets/image%20%2837%29.png)
 
-
+VPC1
 
 
 
