@@ -261,7 +261,7 @@ git clone https://github.com/whchoi98/aws-nwfw-source
 앞서 Git을 통해 다운로드 받은파일 가운데 shell 또는 아래 aws cli를 통해 배포된 인스턴스 id를 확인합니다.
 
 ```text
-./aws-nwfw-source/ec2-query.sh >>vpc1-ec2.txt
+./aws-nwfw-source/ec2-query.sh >>vpc-ec2.txt
 
 ```
 
@@ -291,9 +291,102 @@ git clone https://github.com/whchoi98/aws-nwfw-source
 
 vpc1-ec2.txt 결과의 예입니다.
 
+```text
+------------------------------------------------------------------------------------------------------------------------------------------------
+|                                                               DescribeInstances                                                              |
++------------------------+-------------+----------------------+-----------+------------------------+----------+--------------+-----------------+
+|  Protect-EC2-10-2-1-102|  us-west-2a |  i-0038b860f73bd8781 |  t3.small |  ami-0e472933a1395e172 |  running |  10.2.1.102  |  34.219.129.19  |
+|  Protect-EC2-10-3-1-101|  us-west-2a |  i-0a80280af2f7f40d2 |  t3.small |  ami-0e472933a1395e172 |  running |  10.3.1.101  |  34.217.107.43  |
+|  Protect-EC2-10-2-1-101|  us-west-2a |  i-05948e13ebe48a31a |  t3.small |  ami-0e472933a1395e172 |  running |  10.2.1.101  |  35.165.143.85  |
+|  Protect-EC2-10-3-1-102|  us-west-2a |  i-01e0a477fdaa781cd |  t3.small |  ami-0e472933a1395e172 |  running |  10.3.1.102  |  18.236.172.80  |
+|  Protect-EC2-10-1-1-101|  us-west-2a |  i-0259452343edf7559 |  t3.small |  ami-0e472933a1395e172 |  running |  10.1.1.101  |  52.34.217.245  |
+|  Protect-EC2-10-4-1-101|  us-west-2a |  i-00c16e31e026502f2 |  t3.small |  ami-0e472933a1395e172 |  running |  10.4.1.101  |  54.70.118.179  |
+|  Protect-EC2-10-4-1-102|  us-west-2a |  i-095986a3011fa496a |  t3.small |  ami-0e472933a1395e172 |  running |  10.4.1.102  |  52.27.172.182  |
++------------------------+-------------+----------------------+-----------+------------------------+----------+--------------+-----------------+
+```
 
+인스턴스 id를 Shell에 저장해 둡니다.
 
-### 
+```text
+export VPC1_AZA_101="i-040d4d15aebc8fb32"
+export VPC1_AZA_102="i-068a26aee30adb069"
+echo "export VPC1_AZA_101=$VPC1_AZA_101" | tee -a ~/.bash_profile
+echo "export VPC1_AZA_102=$VPC1_AZA_102" | tee -a ~/.bash_profile
+echo $VPC1_AZA_101
+echo $VPC1_AZA_102
+
+```
+
+아래와 같은 방법으로 Session Manager를 통해 인스턴스에 접속합니다.
+
+```text
+#VPC1 AZ-A EC2-101
+aws ssm start-session --target $VPC1_AZA_101 --region us-west-2
+sudo -s
+su ec2-user
+cd ~
+ 
+```
+
+```text
+#VPC1 AZ-A EC2-102
+aws ssm start-session --target $VPC1_AZA_102 --region us-west-2
+sudo -s
+su ec2-user
+cd ~
+
+```
+
+각 인스턴스에서 아래 명령을 통해 생성된 EC2 인스턴스들의 local\(Private\) IP 주소와 공인\(Public\) IP를 확인합니다.
+
+```text
+curl http://169.254.169.254/latest/meta-data/local-ipv4
+curl http://169.254.169.254/latest/meta-data/public-ipv4
+curl -s ifconfig.co
+
+```
+
+먼저 사용자 웹브라우저에서 각 인스턴스의 Public IP 주소로 아래 웹사이트에 접근해 봅니다.
+
+```text
+http://ec2-101-public-ip/ec2meta-webpage/index.php
+```
+
+인스턴스 id를 Shell에 저장해 둡니다.
+
+```text
+export Protect-EC2-10-2-1-102="i-0038b860f73bd8781"
+export Protect-EC2-10-3-1-101="i-0a80280af2f7f40d2"
+export Protect-EC2-10-2-1-101="i-05948e13ebe48a31a"
+export Protect-EC2-10-3-1-102="i-01e0a477fdaa781cd"
+export Protect-EC2-10-1-1-101="i-0259452343edf7559"
+export Protect-EC2-10-4-1-101="i-00c16e31e026502f2"
+export Protect-EC2-10-4-1-102="i-095986a3011fa496a"
+
+echo "export Protect-EC2-10-2-1-102=$Protect-EC2-10-2-1-102 | tee -a ~/.bash_profile
+echo "export Protect-EC2-10-3-1-101=$Protect-EC2-10-2-1-102 | tee -a ~/.bash_profile
+echo "export Protect-EC2-10-2-1-101=$Protect-EC2-10-2-1-102 | tee -a ~/.bash_profile
+echo "export Protect-EC2-10-3-1-102=$Protect-EC2-10-2-1-102 | tee -a ~/.bash_profile
+echo "export Protect-EC2-10-2-1-102=$Protect-EC2-10-2-1-102 | tee -a ~/.bash_profile
+echo "export Protect-EC2-10-2-1-102=$Protect-EC2-10-2-1-102 | tee -a ~/.bash_profile
+echo "export Protect-EC2-10-2-1-102=$Protect-EC2-10-2-1-102 | tee -a ~/.bash_profile
+echo "export Protect-EC2-10-2-1-102=$Protect-EC2-10-2-1-102 | tee -a ~/.bash_profile
+
+echo $VPC1_AZA_101
+echo $VPC1_AZA_102
+
+```
+
+아래와 같은 방법으로 Session Manager를 통해 인스턴스에 접속합니다.
+
+```text
+#VPC1 AZ-A EC2-101
+aws ssm start-session --target $VPC1_AZA_101 --region us-west-2
+sudo -s
+su ec2-user
+cd ~
+
+```
 
 
 
