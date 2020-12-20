@@ -539,5 +539,7 @@ curl -I www.google.com
 
 ![](.gitbook/assets/image%20%2867%29.png)
 
-VPC1,2,3,4
+**VPC1,2,3,4의 Domain-rule-01,02,03,04 모두 확인해 봅니다.**
+
+### 
 
