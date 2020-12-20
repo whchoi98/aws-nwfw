@@ -18,7 +18,7 @@ Cloudformation을 통해 기본이 되는 VPC구성을 먼저 구성합니다.
 
 ‌ Routing Table 구성과 Network Firewall 구성은 다음단계에 별도로 진행하게 됩니다.
 
-![](.gitbook/assets/image%20%2884%29.png)
+![](.gitbook/assets/image%20%2885%29.png)
 
 아래 Github에서 실습에 사용할 Cloudformation yml 파일을 다운로드 받습니다.
 
@@ -49,7 +49,7 @@ git clone https://github.com/whchoi98/aws-nwfw-source
 
 10분 후면 모든 자원이 생성됩니다.
 
-![](.gitbook/assets/image%20%2887%29.png)
+![](.gitbook/assets/image%20%2889%29.png)
 
 {% hint style="info" %}
 **본 랩에서는 EC2의 자원들에 손쉽게 접근 할 수 있도록 모두 Session Manager 접근 구성을 Cloudformation으로 배포합니다. AWS 콘솔이나, 다른 배포 도구로 구성하셔도 랩을 진행하는데는 이슈가 없습니다.**
@@ -79,9 +79,9 @@ git clone https://github.com/whchoi98/aws-nwfw-source
 6. **Description\(Optional\)** : 방화벽 정에 대한 설명을 정의합니다.   
 7. **Firewall Tag :** Firewall 자원에 대한 Tag를 정의합니다.
 
-![](.gitbook/assets/image%20%2885%29.png)
-
 ![](.gitbook/assets/image%20%2886%29.png)
+
+![](.gitbook/assets/image%20%2887%29.png)
 
 | Firewall Name | Firewall Policy | VPC | AZ | Subnet |
 | :--- | :--- | :--- | :--- | :--- |
@@ -94,9 +94,19 @@ git clone https://github.com/whchoi98/aws-nwfw-source
 
 방화벽을 생성하고 나면, **`provisoning`** 상태가 진행되며 완료까지 5분 내외가 소요됩니다.
 
-![](.gitbook/assets/image%20%2890%29.png)
+![](.gitbook/assets/image%20%2892%29.png)
 
 정상적으로 설치되면 아래 그림처럼 **`Status:Ready`** 상태로 변경됩니다.
+
+![](.gitbook/assets/image%20%2883%29.png)
+
+생성한 Firewall을 선택하고 **`Firewall details`** 를 선택하면, 해당 서브넷에 Endpoint가 정상적으로 생성된 것을 확인 할 수 있습니다.
+
+![](.gitbook/assets/image%20%283%29.png)
+
+**`Service-VPC-Virtual Private Cloud-Endpoint`** 메뉴에서 Firewall Endpoint를 확인 할 수 있습니다.
+
+![](.gitbook/assets/image%20%2888%29.png)
 
 
 
