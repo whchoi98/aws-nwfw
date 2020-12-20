@@ -4,6 +4,8 @@ description: 'Update : 2020-12-15'
 
 # AWS Network Firewall Workshop
 
+## 소개 
+
 AWS Network Firewall은 Amazon Virtual Private Cloud \(Amazon VPC\)에서 생성 한 가상 사설 클라우드 \(VPC\)를위한 Stateless,Stateful 기반 관리 형 네트워크 방화벽 및 IDS/IPS 서비스입니다.
 
 네트워크 방화벽을 사용하면 VPC 내부 트래픽을 필터링 할 수 있습니다. 터넷 게이트웨이, NAT 게이트웨이 또는 VPN 또는 AWS Direct Connect를 통해 들어오고 나가는 트래픽 필터링이 포함됩니다. 네트워크 방화벽은 Stateful 기반 보안 위해 오픈 소스 IPS \(침입 방지 시스템\) 인 Suricata를 사용합니다. 네트워크 방화벽은 Suricata 호환 규칙을 지원합니다.
@@ -18,6 +20,14 @@ AWS Network Firewall은 Amazon Virtual Private Cloud \(Amazon VPC\)에서 생성
 VPC에 대해 네트워크 방화벽을 활성화하려면 Amazon VPC와 네트워크 방화벽 모두에서 단계를 수행합니다.
 
 이 워크샵에서는 다양한 디자인과 함께 Network Filrewall을 적용하는 방안들을 살펴 봅니다. 
+
+## \*\*\*\*[**Network Firewall 기본 구성**](single-az-nwfw.md)
+
+## \*\*\*\*[**Network Firewall - MultiVPC 구성**](multi-vpc-nwfw.md)\*\*\*\*
+
+## \*\*\*\*[**Network Firewall - Multi AZ** 구성](multi-az-nwfw.md)
+
+
 
 Written by WOO HYUNG CHOI \(whchoi98@gmail.com, whchoi@amazon.com\)
 
