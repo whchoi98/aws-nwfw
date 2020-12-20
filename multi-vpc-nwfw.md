@@ -177,6 +177,13 @@ FW Subnet은 인터넷으로 향하는 트래픽에 대한 라우팅 생성을 �
 
 FW Subnet Routing Table을 선택하고, **`Route-Edit Routes`** 를 선택합니다.
 
+| Route Table | VPC | Route |
+| :--- | :--- | :--- |
+| VPC1-FWSubnet1-RT | VPC1 | 0.0.0.0--&gt;IGW |
+| VPC2-FWSubnet1-RT | VPC2 | 0.0.0.0--&gt;IGW |
+| VPC3-FWSubnet1-RT | VPC3 | 0.0.0.0--&gt;IGW |
+| VPC4-FWSubnet1-RT | VPC4 | 0.0.0.0--&gt;IGW |
+
 ![](.gitbook/assets/image%20%2825%29.png)
 
 Ingress Routing은 Local이 이미 구성되어 있으므로 별도 구성없이, Egress Routing에 대한 구성만 합니다. 
@@ -199,9 +206,9 @@ Protect Subnet을 위한 라우팅을 선택하고, **`Route-Edit Routes`** 를 
 
 | Route Table | VPC | Route |
 | :--- | :--- | :--- |
-| VPC4-ProtectSubnet1-RT | VPC1 | 0.0.0.0--&gt;GWLB EP |
-| VPC4-ProtectSubnet1-RT | VPC2 | 0.0.0.0--&gt;GWLB EP |
-| VPC4-ProtectSubnet1-RT | VPC3 | 0.0.0.0--&gt;GWLB EP |
+| VPC1-ProtectSubnet1-RT | VPC1 | 0.0.0.0--&gt;GWLB EP |
+| VPC2-ProtectSubnet1-RT | VPC2 | 0.0.0.0--&gt;GWLB EP |
+| VPC3-ProtectSubnet1-RT | VPC3 | 0.0.0.0--&gt;GWLB EP |
 | VPC4-ProtectSubnet1-RT | VPC4 | 0.0.0.0--&gt;GWLB EP |
 
 ![](.gitbook/assets/image%20%2828%29.png)
@@ -214,9 +221,9 @@ Protect Subnet을 위한 라우팅 테이블이 정상적으로 구성되었는 
 
 ![](.gitbook/assets/image%20%2837%29.png)
 
-VPC1
+Protect Subnet Routing Table 구성 과정을, VPC1, VPC2, VPC3, VPC4 에 동일하게 수행합니다.
 
-
+### 
 
 
 
