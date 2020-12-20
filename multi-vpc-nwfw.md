@@ -393,7 +393,7 @@ Network Firewall의 정책을 이해하기 위해 아래 그림을 이해해야 
 
 ### 3. Stateless Rule 구성 
 
-| Firewall | Firewall Polices |  | Rules |
+| Firewall | Firewall Polices | Rule Name | Rules |
 | :--- | :--- | :--- | :--- |
 | VPC1-AZ-A-NWFW | VPC1-AZ-ANWFW-Policy-01 | Stateless-rule-01 | priority-11, ICMP, Src-0.0.0.0/0, Dst-10.1.1.101/32, Action -Drop |
 | VPC2-AZ-A-NWFW | VPC2-AZ-ANWFW-Policy-01 | Stateless-rule-02 | priority-11, ICMP, Src-0.0.0.0/0, Dst-10.2.1.101/32, Action -Drop |
@@ -443,6 +443,13 @@ VPC1,2,3,4의 Network Firewall 구성을 위해 Stateless-Rule-01,02,03,04를 �
 
 ### 4. Stateful Rule 구성 
 
+| Firewall | Firewall Polices | Rule Name | Rules |
+| :--- | :--- | :--- | :--- |
+| VPC1-AZ-A-NWFW | VPC1-AZ-ANWFW-Policy-01 | Stateful-rule-01 | ssh,src-any src port - any,dst-10.1.1.101/32 dst port-22, Direction-any, Action-drop |
+| VPC2-AZ-A-NWFW | VPC2-AZ-ANWFW-Policy-01 | Stateful-rule-02 | ssh,src-any src port - any,dst-10.2.1.101/32 dst port-22, Direction-any, Action-drop |
+| VPC3-AZ-A-NWFW | VPC3-AZ-ANWFW-Policy-01 | Stateful-rule-03 | ssh,src-any src port - any,dst-10.3.1.101/32 dst port-22, Direction-any, Action-drop |
+| VPC4-AZ-A-NWFW | VPC4-AZ-ANWFW-Policy-01 | Stateful-rule-04 | ssh,src-any src port - any,dst-10.4.1.101/32 dst port-22, Direction-any, Action-drop |
+
 새로운 Stateful Rule Group 생성을 합니다.
 
 **`VPC-Firewall policies - 생성한 Policy - Stateful rule groups - Add rule groups - Create and add new stateful  rule group`**
@@ -459,4 +466,10 @@ Stateful rule group을 생성합니다.
 6. **Destination IP/Port**
 7. **Traffic direction : Any/Forward를 선택합니다 .** 
 8. **Action : Pass,Drop,Alert 을 선택합니다.**
+
+**SSH 에 대한 정책을 임의로 생성해 봅니다. \(10.1.1.101 인스턴스에 대한 SSH Drop\)**
+
+![](.gitbook/assets/image%20%2851%29.png)
+
+![](.gitbook/assets/image%20%2854%29.png)
 
