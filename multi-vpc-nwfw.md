@@ -126,6 +126,10 @@ git clone https://github.com/whchoi98/aws-nwfw-source
 
 **`Service - VPC - Virtual Private Cloud - Route Table - Create route table`**
 
+| Route Table |  |
+| :--- | :--- |
+|  |  |
+
 ![](.gitbook/assets/image%20%2839%29.png)
 
 신규 생성한 InternetGateway용 라우팅 테이블을 선택하고, **`Edge Associations`** 를 선택합니다.
