@@ -171,11 +171,36 @@ Gateway Load Balancer Endpoint를 선택하게 되면, Network Firewall을 생�
 
 VPC Ingress Routing Table 구성 과정을, VPC1, VPC2, VPC3, VPC4 에 동일하게 수행합니다.
 
+### 2. FW Subnet 라우팅 테이블 구성. 
+
+FW Subnet은 인터넷으로 향하는 트래픽에 대한 라우팅 생성을 합니다. Ingress Routing은 별도로 구성할 필요가 없습니다. VPC를 구성할때 CIDR를 생성하면 자동으 Local Routing이 구성되기 때문입니다. 
+
+FW Subnet Routing Table을 선택하고, **`Route-Edit Routes`** 를 선택합니다.
+
+![](.gitbook/assets/image%20%2825%29.png)
+
+Ingress Routing은 Local이 이미 구성되어 있으므로 별도 구성없이, Egress Routing에 대한 구성만 합니다. 
+
+외부로 향하는 트래픽은 모두 목적지 IGW로 향하도록 구성하고 저장합니다.
+
+![](.gitbook/assets/image%20%2827%29.png)
+
+Firewall 서브넷을 위한 라우팅 구성이 정상적으로 되었는지 확인합니다.
+
+![](.gitbook/assets/image%20%2819%29.png)
+
 ### 3. Protect Subnet 테이블 구성. 
 
 Ingress Routing은 이미 Local Routing 구성이 자동으로 되어 있으므로, Egress Routing에 대한 처리만 합니다.
 
 Protect Subnet을 위한 라우팅을 선택하고, **`Route-Edit Routes`** 를 선택해서 Egress Routing 구성을 합니다.
+
+| Route Table | VPC | Route |
+| :--- | :--- | :--- |
+| VPC4-ProtectSubnet1-RT | VPC1 | 0.0.0.0--&gt;GWLB EP |
+| VPC4-ProtectSubnet1-RT | VPC2 | 0.0.0.0--&gt;GWLB EP |
+| VPC4-ProtectSubnet1-RT | VPC3 | 0.0.0.0--&gt;GWLB EP |
+| VPC4-ProtectSubnet1-RT | VPC4 | 0.0.0.0--&gt;GWLB EP |
 
 ![](.gitbook/assets/image%20%2828%29.png)
 
