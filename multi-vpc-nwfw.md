@@ -126,12 +126,12 @@ git clone https://github.com/whchoi98/aws-nwfw-source
 
 **`Service - VPC - Virtual Private Cloud - Route Table - Create route table`**
 
-| Route Table | VPC | Tag |
-| :--- | :--- | :--- |
-| VPC1-IGW-RT | VPC1 | Name/VPC1-IGW-RT |
-| VPC2-IGW-RT | VPC2 | Name/VPC2-IGW-RT |
-| VPC3-IGW-RT | VPC3 | Name/VPC3-IGW-RT |
-| VPC4-IGW-RT | VPC4 | Name/VPC4-IGW-RT |
+| Route Table | VPC | Tag | Edge Association | Route |
+| :--- | :--- | :--- | :--- | :--- |
+| VPC1-IGW-RT | VPC1 | Name/VPC1-IGW-RT | VPC1-IGW | 10.1.1.0/24 --&gt;GWLB EP |
+| VPC2-IGW-RT | VPC2 | Name/VPC2-IGW-RT | VPC2-IGW | 10.2.1.0/24 --&gt;GWLB EP |
+| VPC3-IGW-RT | VPC3 | Name/VPC3-IGW-RT | VPC3-IGW | 10.3.1.0/24 --&gt;GWLB EP |
+| VPC4-IGW-RT | VPC4 | Name/VPC4-IGW-RT | VPC4-IGW | 10.4.1.0/24 --&gt;GWLB EP |
 
 ![](.gitbook/assets/image%20%2839%29.png)
 
@@ -170,6 +170,22 @@ Gateway Load Balancer Endpoint를 선택하게 되면, Network Firewall을 생�
 ![](.gitbook/assets/image%20%2821%29.png)
 
 VPC Ingress Routing Table 구성 과정을, VPC1, VPC2, VPC3, VPC4 에 동일하게 수행합니다.
+
+### 3. Protect Subnet 테이블 구성. 
+
+Ingress Routing은 이미 Local Routing 구성이 자동으로 되어 있으므로, Egress Routing에 대한 처리만 합니다.
+
+Protect Subnet을 위한 라우팅을 선택하고, **`Route-Edit Routes`** 를 선택해서 Egress Routing 구성을 합니다.
+
+![](.gitbook/assets/image%20%2828%29.png)
+
+Protect Subnet에 속한 자원들이 외부로 트래픽을 보낼 때 모두 Firewall을 통과하도록, 모든 라우팅 목적지를 Firewall VPC Endpoint로 향하게 구성합니다.
+
+![](.gitbook/assets/image%20%2823%29.png)
+
+Protect Subnet을 위한 라우팅 테이블이 정상적으로 구성되었는 지 확인합니다.
+
+![](.gitbook/assets/image%20%2837%29.png)
 
 
 
