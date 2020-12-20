@@ -36,7 +36,7 @@ git clone https://github.com/whchoi98/aws-nwfw-source
 
 ![](.gitbook/assets/image%20%289%29.png)
 
-#### 앞서 다운로드 받은 git 파일 중에서 ``**`"singleaz-vpc1-az-a.yml"`** 파일을 업로드 합니다.
+#### 앞서 다운로드 받은 git 파일 중에서**`"singleaz-vpc1-az-a.yml"`** 파일을 업로드 합니다.
 
 ![](.gitbook/assets/image%20%282%29.png)
 
@@ -511,7 +511,7 @@ Stateful rule group을 생성합니다.
 
 ![](.gitbook/assets/image%20%2863%29.png)
 
-![](.gitbook/assets/image%20%2885%29.png)
+![](.gitbook/assets/image%20%2887%29.png)
 
 IPS Rule은 아래와 같이 구성해 봅니다.
 
@@ -556,17 +556,17 @@ Cloudwatch log group을 지정하고, Log를 살펴봅니다.
 
 **`Cloudwatch - Cloudwatch logs - log groups`** 를 선택하고, **`Create log group`** 을 선택해서 Log Group을 생성합니다.
 
-![](.gitbook/assets/image%20%2883%29.png)
+![](.gitbook/assets/image%20%2885%29.png)
 
 Alert , Flow log group을 각각 생성합니다.
 
 * Log group name : NWFW-Alert , NWFW-Flow
 
-![](.gitbook/assets/image%20%2881%29.png)
+![](.gitbook/assets/image%20%2882%29.png)
 
 생성된 Log group을 확인합니다. 
 
-![](.gitbook/assets/image%20%2884%29.png)
+![](.gitbook/assets/image%20%2886%29.png)
 
 ### 2. Firewall logging 구성. 
 
@@ -580,7 +580,7 @@ Firewall details 메뉴를 선택하고, logging 메뉴에서 Edit 를 선택합
 
 **`VPC -Firewalls - 생성한 Firewall - Firewall details - Logging - Edit`**
 
-![](.gitbook/assets/image%20%2880%29.png)
+![](.gitbook/assets/image%20%2881%29.png)
 
 firewall loggig을 구성합니다.
 
@@ -623,7 +623,7 @@ Block 된 로그를 확인합니다. Signature ID 103에 의해서 Block 된 것
 drop http any any -> [10.1.1.101,10.1.1.102] any (msg: "User agent"; http.user_agent; content:"Firefox"; sid:103; rev:1;)
 ```
 
-![](.gitbook/assets/image%20%2886%29.png)
+![](.gitbook/assets/image%20%2888%29.png)
 
 ### 4. Firewall Monitoring
 
@@ -638,7 +638,7 @@ VPC - Firewall - 생성한 Firewall - Monitoring
 * **Stateful DroppedPackets**
 * **Stateful PassedPackets**
 
-![](.gitbook/assets/image%20%2882%29.png)
+![](.gitbook/assets/image%20%2884%29.png)
 
 ## Task6. 자원 삭제
 
