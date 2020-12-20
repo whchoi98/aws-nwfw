@@ -223,6 +223,76 @@ Protect Subnet을 위한 라우팅 테이블이 정상적으로 구성되었는 
 
 Protect Subnet Routing Table 구성 과정을, VPC1, VPC2, VPC3, VPC4 에 동일하게 수행합니다.
 
+### 4. 트래픽 흐름 확인   
+
+이제 모든 라우팅 구성은 완료되었습니다. 앞서 Cloudformation 을 통해서 생성한 EC2 자원들에 대한 Security Group은 이미 설정되어 있습니다.
+
+![](.gitbook/assets/image%20%2829%29.png)
+
+또한 System Manager를 통한 Session Manager구성도 Cloudformation을 통해 구성되어 있습니다. 본 랩에서는 Session Manager를 통해서 접속해서 시험합니다.
+
+{% hint style="success" %}
+Protect Subnet의 EC2 자원은 IGW와 1:1 NAT 구성이 되도록 설정되어 있습니다. Session Manager 뿐만 아니라, SSH 접속도 가능합니다. 하지만 보안 정책 테스트를 하기 어렵기 때문에 Session Manager로 접속하는 것을 권고합니다.
+{% endhint %}
+
+**`Service - System Manager - Session Manager`** 를 선택하고, **`Start Session`**을 선택합니다.
+
+![](.gitbook/assets/image%20%2820%29.png)
+
+EC2에 이미 System Manager Agent가 설치되어 Web에서 접속이 가능합니다. 접속을 원하는 EC2 인스턴스를 선택하고 **`Start Session`**을 시작합니다.
+
+![](.gitbook/assets/image%20%2836%29.png)
+
+AWS CLI 가 설치된 경우에는  Session Manager Plugin을 설치하여, CLI로 구성과 시험이 가능합니다. \([AWS CLI용 Session Manager  Plugin 설치](https://docs.aws.amazon.com/ko_kr/systems-manager/latest/userguide/session-manager-working-with-install-plugin.html) \)
+
+본 랩에서는 Cloudshell을 사용해서, Session Manager를 사용합니다.
+
+**`Service - Cloudshell`** 을 선택하여, Cloudshell 콘솔을 실행합니다. 아래와 같이 session-manager-plugin 을 설치하고, 랩에 필요한 yml 및 source 들을 설치합니다.
+
+![](.gitbook/assets/image%20%2841%29.png)
+
+```text
+curl "https://s3.amazonaws.com/session-manager-downloads/plugin/latest/linux_64bit/session-manager-plugin.rpm" -o "session-manager-plugin.rpm"
+sudo yum install -y session-manager-plugin.rpm
+git clone https://github.com/whchoi98/aws-nwfw-source
+
+```
+
+앞서 Git을 통해 다운로드 받은파일 가운데 shell 또는 아래 aws cli를 통해 배포된 인스턴스 id를 확인합니다.
+
+```text
+./aws-nwfw-source/ec2-query.sh >>vpc1-ec2.txt
+
+```
+
+vpc1-ec2.txt 결과의 예입니다.
+
+AWS CLI 가 설치된 경우에는  Session Manager Plugin을 설치하여, CLI로 구성과 시험이 가능합니다. \([AWS CLI용 Session Manager  Plugin 설치](https://docs.aws.amazon.com/ko_kr/systems-manager/latest/userguide/session-manager-working-with-install-plugin.html) \)
+
+본 랩에서는 Cloudshell을 사용해서, Session Manager를 사용합니다.
+
+**`Service - Cloudshell`** 을 선택하여, Cloudshell 콘솔을 실행합니다. 아래와 같이 session-manager-plugin 을 설치하고, 랩에 필요한 yml 및 source 들을 설치합니다.
+
+![](.gitbook/assets/image%20%2841%29.png)
+
+```text
+curl "https://s3.amazonaws.com/session-manager-downloads/plugin/latest/linux_64bit/session-manager-plugin.rpm" -o "session-manager-plugin.rpm"
+sudo yum install -y session-manager-plugin.rpm
+git clone https://github.com/whchoi98/aws-nwfw-source
+
+```
+
+앞서 Git을 통해 다운로드 받은파일 가운데 shell 또는 아래 aws cli를 통해 배포된 인스턴스 id를 확인합니다.
+
+```text
+./aws-nwfw-source/ec2-query.sh >>vpc1-ec2.txt
+
+```
+
+vpc1-ec2.txt 결과의 예입니다.
+
+
+
 ### 
 
 
