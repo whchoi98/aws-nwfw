@@ -196,7 +196,7 @@ Firewall 서브넷을 위한 라우팅 구성이 정상적으로 되었는지 �
 
 ![](.gitbook/assets/image%20%2819%29.png)
 
-FW Subnet Routing Table 구성 과정을, VPC1, VPC2, VPC3, VPC4 에 동일하게 수행합니다.
+**FW Subnet Routing Table 구성 과정을, VPC1, VPC2, VPC3, VPC4 에 동일하게 수행합니다.**
 
 ### 3. Protect Subnet 테이블 구성. 
 
@@ -221,7 +221,7 @@ Protect Subnet을 위한 라우팅 테이블이 정상적으로 구성되었는 
 
 ![](.gitbook/assets/image%20%2837%29.png)
 
-Protect Subnet Routing Table 구성 과정을, VPC1, VPC2, VPC3, VPC4 에 동일하게 수행합니다.
+**Protect Subnet Routing Table 구성 과정을, VPC1, VPC2, VPC3, VPC4 에 동일하게 수행합니다.**
 
 ### 4. 트래픽 흐름 확인   
 
@@ -285,43 +285,55 @@ git clone https://github.com/whchoi98/aws-nwfw-source
 앞서 Git을 통해 다운로드 받은파일 가운데 shell 또는 아래 aws cli를 통해 배포된 인스턴스 id를 확인합니다.
 
 ```text
-./aws-nwfw-source/ec2-query.sh >>vpc1-ec2.txt
+./aws-nwfw-source/ec2-query.sh >>vpc-ec2.txt
 
 ```
 
-vpc1-ec2.txt 결과의 예입니다.
+vpc-ec2.txt 결과의 예입니다.
 
 ```text
-------------------------------------------------------------------------------------------------------------------------------------------------
-|                                                               DescribeInstances                                                              |
-+------------------------+-------------+----------------------+-----------+------------------------+----------+--------------+-----------------+
-|  Protect-EC2-10-2-1-102|  us-west-2a |  i-0038b860f73bd8781 |  t3.small |  ami-0e472933a1395e172 |  running |  10.2.1.102  |  34.219.129.19  |
-|  Protect-EC2-10-3-1-101|  us-west-2a |  i-0a80280af2f7f40d2 |  t3.small |  ami-0e472933a1395e172 |  running |  10.3.1.101  |  34.217.107.43  |
-|  Protect-EC2-10-2-1-101|  us-west-2a |  i-05948e13ebe48a31a |  t3.small |  ami-0e472933a1395e172 |  running |  10.2.1.101  |  35.165.143.85  |
-|  Protect-EC2-10-3-1-102|  us-west-2a |  i-01e0a477fdaa781cd |  t3.small |  ami-0e472933a1395e172 |  running |  10.3.1.102  |  18.236.172.80  |
-|  Protect-EC2-10-1-1-101|  us-west-2a |  i-0259452343edf7559 |  t3.small |  ami-0e472933a1395e172 |  running |  10.1.1.101  |  52.34.217.245  |
-|  Protect-EC2-10-4-1-101|  us-west-2a |  i-00c16e31e026502f2 |  t3.small |  ami-0e472933a1395e172 |  running |  10.4.1.101  |  54.70.118.179  |
-|  Protect-EC2-10-4-1-102|  us-west-2a |  i-095986a3011fa496a |  t3.small |  ami-0e472933a1395e172 |  running |  10.4.1.102  |  52.27.172.182  |
-+------------------------+-------------+----------------------+-----------+------------------------+----------+--------------+-----------------+
+-------------------------------------------------------------------------------------------------------------------------------------------------
+|                                                               DescribeInstances                                                               |
++------------------------+-------------+----------------------+-----------+------------------------+----------+--------------+------------------+
+|  Protect_EC2_10_2_1_102|  us-west-2a |  i-0038b860f73bd8781 |  t3.small |  ami-0e472933a1395e172 |  running |  10.2.1.102  |  34.219.129.19   |
+|  Protect_EC2_10_3_1_101|  us-west-2a |  i-0a80280af2f7f40d2 |  t3.small |  ami-0e472933a1395e172 |  running |  10.3.1.101  |  34.217.107.43   |
+|  Protect_EC2_10_2_1_101|  us-west-2a |  i-05948e13ebe48a31a |  t3.small |  ami-0e472933a1395e172 |  running |  10.2.1.101  |  35.165.143.85   |
+|  Protect_EC2_10_3_1_102|  us-west-2a |  i-01e0a477fdaa781cd |  t3.small |  ami-0e472933a1395e172 |  running |  10.3.1.102  |  18.236.172.80   |
+|  Protect_EC2_10_1_1_101|  us-west-2a |  i-0259452343edf7559 |  t3.small |  ami-0e472933a1395e172 |  running |  10.1.1.101  |  52.34.217.245   |
+|  Protect_EC2_10_4_1_101|  us-west-2a |  i-00c16e31e026502f2 |  t3.small |  ami-0e472933a1395e172 |  running |  10.4.1.101  |  54.70.118.179   |
+|  Protect_EC2_10_4_1_102|  us-west-2a |  i-095986a3011fa496a |  t3.small |  ami-0e472933a1395e172 |  running |  10.4.1.102  |  52.27.172.182   |
+|  Protect_EC2_10_1_1_102|  us-west-2a |  i-0bd8bcd972c2917c0 |  t3.small |  ami-0e472933a1395e172 |  running |  10.1.1.102  |  54.244.138.251  |
++------------------------+-------------+----------------------+-----------+------------------------+----------+--------------+------------------+
 ```
 
 인스턴스 id를 Shell에 저장해 둡니다.
 
 ```text
-export VPC1_AZA_101="i-040d4d15aebc8fb32"
-export VPC1_AZA_102="i-068a26aee30adb069"
-echo "export VPC1_AZA_101=$VPC1_AZA_101" | tee -a ~/.bash_profile
-echo "export VPC1_AZA_102=$VPC1_AZA_102" | tee -a ~/.bash_profile
-echo $VPC1_AZA_101
-echo $VPC1_AZA_102
+export Protect_EC2_10_2_1_102="i-0038b860f73bd8781"
+export Protect_EC2_10_3_1_101="i-0a80280af2f7f40d2"
+export Protect_EC2_10_2_1_101="i-05948e13ebe48a31a"
+export Protect_EC2_10_3_1_102="i-01e0a477fdaa781cd"
+export Protect_EC2_10_1_1_101="i-0259452343edf7559"
+export Protect_EC2_10_4_1_101="i-00c16e31e026502f2"
+export Protect_EC2_10_4_1_102="i-095986a3011fa496a"
+export Protect_EC2_10_1_1_102="i-0bd8bcd972c2917c0"
+
+echo "export Protect_EC2_10_2_1_102=$Protect_EC2_10_2_1_102" | tee -a ~/.bash_profile
+echo "export Protect_EC2_10_3_1_101=$Protect_EC2_10_3_1_101" | tee -a ~/.bash_profile
+echo "export Protect_EC2_10_2_1_101=$Protect_EC2_10_2_1_101" | tee -a ~/.bash_profile
+echo "export Protect_EC2_10_3_1_102=$Protect_EC2_10_3_1_102" | tee -a ~/.bash_profile
+echo "export Protect_EC2_10_1_1_101=$Protect_EC2_10_1_1_101" | tee -a ~/.bash_profile
+echo "export Protect_EC2_10_4_1_101=$Protect_EC2_10_4_1_101" | tee -a ~/.bash_profile
+echo "export Protect_EC2_10_4_1_102=$Protect_EC2_10_4_1_102" | tee -a ~/.bash_profile
+echo "export Protect_EC2_10_1_1_102=$Protect_EC2_10_1_1_102" | tee -a ~/.bash_profile
 
 ```
 
 아래와 같은 방법으로 Session Manager를 통해 인스턴스에 접속합니다.
 
 ```text
-#VPC1 AZ-A EC2-101
-aws ssm start-session --target $VPC1_AZA_101 --region us-west-2
+#Protect_EC2_10_1_1_101
+aws ssm start-session --target $Protect_EC2_10_1_1_101 --region us-west-2
 sudo -s
 su ec2-user
 cd ~
@@ -329,8 +341,8 @@ cd ~
 ```
 
 ```text
-#VPC1 AZ-A EC2-102
-aws ssm start-session --target $VPC1_AZA_102 --region us-west-2
+#Protect_EC2_10_1_1_102
+aws ssm start-session --target $Protect_EC2_10_1_1_102 --region us-west-2
 sudo -s
 su ec2-user
 cd ~
@@ -352,45 +364,94 @@ curl -s ifconfig.co
 http://ec2-101-public-ip/ec2meta-webpage/index.php
 ```
 
-인스턴스 id를 Shell에 저장해 둡니다.
+![](.gitbook/assets/image%20%2899%29.png)
 
-```text
-export Protect-EC2-10-2-1-102="i-0038b860f73bd8781"
-export Protect-EC2-10-3-1-101="i-0a80280af2f7f40d2"
-export Protect-EC2-10-2-1-101="i-05948e13ebe48a31a"
-export Protect-EC2-10-3-1-102="i-01e0a477fdaa781cd"
-export Protect-EC2-10-1-1-101="i-0259452343edf7559"
-export Protect-EC2-10-4-1-101="i-00c16e31e026502f2"
-export Protect-EC2-10-4-1-102="i-095986a3011fa496a"
+## Task4. Network Firewall 상세 구성
 
-echo "export Protect-EC2-10-2-1-102=$Protect-EC2-10-2-1-102 | tee -a ~/.bash_profile
-echo "export Protect-EC2-10-3-1-101=$Protect-EC2-10-2-1-102 | tee -a ~/.bash_profile
-echo "export Protect-EC2-10-2-1-101=$Protect-EC2-10-2-1-102 | tee -a ~/.bash_profile
-echo "export Protect-EC2-10-3-1-102=$Protect-EC2-10-2-1-102 | tee -a ~/.bash_profile
-echo "export Protect-EC2-10-2-1-102=$Protect-EC2-10-2-1-102 | tee -a ~/.bash_profile
-echo "export Protect-EC2-10-2-1-102=$Protect-EC2-10-2-1-102 | tee -a ~/.bash_profile
-echo "export Protect-EC2-10-2-1-102=$Protect-EC2-10-2-1-102 | tee -a ~/.bash_profile
-echo "export Protect-EC2-10-2-1-102=$Protect-EC2-10-2-1-102 | tee -a ~/.bash_profile
+이제 생성된 Firewall과 Firewall Policy에 Rule\(보안 규칙\)을 설정하여, 상세한 보안 규칙들을 설정해 봅니다.
 
-echo $VPC1_AZA_101
-echo $VPC1_AZA_102
+### 1.Firewall 구성 이해
 
-```
+먼저 Firewall 구성은 아래와 같은 방식으로 구성할 수 있습니다.
 
-아래와 같은 방법으로 Session Manager를 통해 인스턴스에 접속합니다.
+![](.gitbook/assets/image%20%2859%29.png)
 
-```text
-#VPC1 AZ-A EC2-101
-aws ssm start-session --target $VPC1_AZA_101 --region us-west-2
-sudo -s
-su ec2-user
-cd ~
+1. **Firewall 을 생성합니다.**
+2. **Firewall Policy를 생성합니다.**
+3. **Stateless Rule 을 생성합니다.**
+4. **Stateful Rule을 생성합니다.**
+5. **Stateful Rule의 Domain list 을 생성합니다.**
+6. **Stateful Rule의 Suricata IPS Rule을 생성합니다.**
 
-```
+앞서 Firewall과 Firewall 정책은 생성 완료했습니다. [\(Task2. Network Firewall 기본 구성\)](multi-vpc-nwfw.md#task-2-network-firewall)
+
+### 2.Firewall Rule의 이해와 구성
+
+Network Firewall의 정책을 이해하기 위해 아래 그림을 이해해야 합니다.
+
+![](.gitbook/assets/image%20%2876%29.png)
+
+생성한 Firewall Policy를 선택합니다.
+
+**`VPC - AWS Network Firewall`**
+
+![](.gitbook/assets/image%20%2845%29.png)
+
+새로운 Stateless Rule Group 생성을 합니다.
+
+**`Create and add new stateless rule group`**
+
+![](.gitbook/assets/image%20%2840%29.png)
+
+{% hint style="info" %}
+앞서 랩에서 Rule이 생성되어 있는 경우에는 "Add stateless rule groups to the firewall policy"를 선택하고 추가합니다. 
+{% endhint %}
+
+Stateless rule group을 생성합니다.
+
+1. **Name : Stateless Rule 이름을 정의합니다.**
+2. **Capacity : Rule Group의 Rule의 숫자를 정의합니다.\(최대 10,000개\)**
+3. **Priority : Stateless Rule의 Priority를 정의합니다. Rule 번호를 의미하며 Rule 번호가 우선 순위를 가지게 됩니다. \(NACL과 규칙 동일\)**
+4. **Protocol : 프로토콜을 정의합니다.**
+5. **Source IP/Port** 
+6. **Destination IP/Port**
+7. **Action : Pass/Drop/Forward to stateful rule groups 를 선택합니다.** 
+8. **Add rule : 생성한 Rule을 추가합니다.**
+
+![](.gitbook/assets/image%20%2846%29.png)
+
+![](.gitbook/assets/image%20%2898%29.png)
+
+Rule을 추가하면 , 추가된 Rule 을 확인하고 생성완료합니다.
+
+![](.gitbook/assets/image%20%2849%29.png)
+
+생성한 룰을 확인하기 위해 외부에서 인스턴스의 공인 IP 주소로 ICMP를 요청해 봅니다. 10.1.1.101에 Mapping 된 공인 IP주로로 ICMP가 거부되고, 10.1.1.102에 Mapping된 공인 IP주소는 응답합니다. \(NACL과 유사합니다.\)
+
+![](.gitbook/assets/image%20%2850%29.png)
+
+{% hint style="info" %}
+
+{% endhint %}
 
 
 
+### 4. Stateful Rule 구성 
 
+새로운 Stateful Rule Group 생성을 합니다.
 
+**`VPC-Firewall policies - 생성한 Policy - Stateful rule groups - Add rule groups - Create and add new stateful  rule group`**
 
+![](.gitbook/assets/image%20%2872%29.png)
+
+Stateful rule group을 생성합니다.
+
+1. **Name : Stateful Rule 이름을 정의합니다.**
+2. **Capacity : Rule Group의 Rule의 숫자를 정의합니다.\(최대 10,000개\)**
+3. **Stateful rule group options : 5 tuple을 선택합니다.**
+4. **Protocol : 프로토콜을 정의합니다.**
+5. **Source IP/Port** 
+6. **Destination IP/Port**
+7. **Traffic direction : Any/Forward를 선택합니다 .** 
+8. **Action : Pass,Drop,Alert 을 선택합니다.**
 
