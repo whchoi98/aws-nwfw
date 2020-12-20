@@ -274,7 +274,7 @@ cd ~
 aws ssm start-session --target $VPC1_AZA_102 --region us-west-2
 sudo -s
 su ec2-user
-cd ~
+cd ~P
 
 ```
 
