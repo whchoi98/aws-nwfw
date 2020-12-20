@@ -1,2 +1,2 @@
-# Network Firewall - 멀티 AZ
+# Network Firewall - Multi AZ
 
