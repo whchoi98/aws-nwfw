@@ -1,4 +1,4 @@
-# Network Firewall - 멀티VPC
+# Network Firewall - MultiVPC
 
 ## 구성  아키텍쳐 소개
 
@@ -128,7 +128,10 @@ git clone https://github.com/whchoi98/aws-nwfw-source
 
 | Route Table |  |
 | :--- | :--- |
-|  |  |
+| VPC1-IGW-RT |  |
+| VPC2-IGW-RT |  |
+| VPC3-IGW-RT |  |
+| VPC4-IGW-RT |  |
 
 ![](.gitbook/assets/image%20%2839%29.png)
 
