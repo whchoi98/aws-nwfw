@@ -364,7 +364,7 @@ curl -s ifconfig.co
 http://ec2-101-public-ip/ec2meta-webpage/index.php
 ```
 
-![](.gitbook/assets/image%20%2899%29.png)
+![](.gitbook/assets/image%20%28100%29.png)
 
 ## Task4. Network Firewall 상세 구성
 
@@ -420,7 +420,7 @@ Stateless rule group을 생성합니다.
 
 ![](.gitbook/assets/image%20%2846%29.png)
 
-![](.gitbook/assets/image%20%2898%29.png)
+![](.gitbook/assets/image%20%2899%29.png)
 
 Rule을 추가하면 , 추가된 Rule 을 확인하고 생성완료합니다.
 
