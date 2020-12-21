@@ -747,21 +747,23 @@ VPC - Firewall - 생성한 Firewall - Monitoring
 
 2. Route Table에서 GWLB Endpoint 제거
 
-VPC1-IGW-RT 에서 GWLB Endpoint 제
+VPC-IGW-RT 에서 Egde Associations 제거 / VPC-IGW  제거.
 
-**`Virtual Private Cloud - Route Table - VPC1-IGW-RT - GWLB Endpoint Route 제`** 
+**`Virtual Private Cloud - Route Table - VPC1-IGW-RT - Edge Associations - IGW Uncheck`**
 
-VPC1-ProtectSubnet1-RT 에서 GWLB Endpoint route 제거
+VPC-ProtectSubnet1-RT 에서 GWLB Endpoint route 제거
 
 **`Virtual Private Cloud - Route Table - VPC1-ProtectSubnet1-RT 선택 - GWLB Endpoint Route 제거`**
 
 3. Network Firewall logging 구성 제거
 
-
+**`VPC - Firewall - Firewall Details - Logging - Edit - Loggig 해제.`**
 
 4. Network Firewall 제거
 
+**`VPC - Firewall  - 제거`**
 
+**\`\`**
 
 5. Cloudformation 에서 Stack 제거
 
