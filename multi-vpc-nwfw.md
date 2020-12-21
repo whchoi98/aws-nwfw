@@ -747,9 +747,9 @@ VPC - Firewall - 생성한 Firewall - Monitoring
 
 2. Route Table에서 GWLB Endpoint 제거
 
-VPC1-IGW-RT 제
+VPC1-IGW-RT 에서 GWLB Endpoint 제
 
-**`Virtual Private Cloud - Route Table - VPC1-IGW-RT`** 
+**`Virtual Private Cloud - Route Table - VPC1-IGW-RT - GWLB Endpoint Route 제`** 
 
 VPC1-ProtectSubnet1-RT 에서 GWLB Endpoint route 제거
 
