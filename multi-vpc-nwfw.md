@@ -743,7 +743,7 @@ VPC - Firewall - 생성한 Firewall - Monitoring
 
 1.Network Firewall  policy 에서 Rule 제거
 
-**`VPC - Firewall Policies - Firewall Polices 선택 - Stateleess Rule/Stateful rule group 제`**
+**`VPC - Firewall Policies - Firewall Polices 선택 - Stateleess Rule/Stateful rule group 제거`** 
 
 2. Route Table에서 GWLB Endpoint 제거
 
