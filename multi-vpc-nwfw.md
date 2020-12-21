@@ -763,8 +763,6 @@ VPC-ProtectSubnet1-RT 에서 GWLB Endpoint route 제거
 
 **`VPC - Firewall  - 제거`**
 
-**\`\`**
-
 5. Cloudformation 에서 Stack 제거
 
 **`Cloudformation - Stacks - Stack 선택 - 삭제`** 
