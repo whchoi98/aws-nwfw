@@ -1,5 +1,5 @@
 ---
-description: 'Update : 2020-12-15'
+description: 'Update : 2020-12-20'
 ---
 
 # AWS Network Firewall Workshop
